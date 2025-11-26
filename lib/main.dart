@@ -1,23 +1,16 @@
+import 'package:pabrik_kayu/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(kayu());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class kayu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Belajar Flutter Kelas ',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Halaman Utama", style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.deepPurpleAccent,
-        ),
-        body: Center(child: Text("Mulai Belajar Flutter")),
-      ),
+      title: 'halaman masuk',
+      home: LoginPage(),
     );
   }
 }

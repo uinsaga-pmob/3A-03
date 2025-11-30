@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/kode_OTP.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:pabrik_kayu/login_page.dart';
-
 
 
 class DaftarAkun extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Daftar Akun',
-      home: Scaffold(
-        backgroundColor: Color(0xffF8F6F1),
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.all(30),
-            height: 750,
-            width: 300,
-            decoration: BoxDecoration(
-              color: greenColor,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
+    return Scaffold(
+        backgroundColor: cream,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Center(
+              child: Container(
+              padding: EdgeInsets.all(30),
+              height: 800,
+              width: 300,
+              decoration: BoxDecoration(
+                color: greenColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
@@ -55,6 +53,7 @@ class DaftarAkun extends StatelessWidget {
               textfieldcostom("Profesi", hint: "Profesi"),
               SizedBox(height: 10),
               textfieldcostom("Tanggal Lahir", hint: "Tanggal Lahir"),
+              SizedBox(height: 10),
               textfieldcostom("Alamat", hint: "Alamat"),
               SizedBox(height: 10),
 
@@ -65,7 +64,7 @@ class DaftarAkun extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage())),
+                    MaterialPageRoute(builder: (context) => KodeOtp())),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,
                     shape: RoundedRectangleBorder(
@@ -82,10 +81,9 @@ class DaftarAkun extends StatelessWidget {
                       ),
                     ),
                   ),
-              ),
+                ),
             ],
-          ),
-            
+          )), 
           )
         )
       ),

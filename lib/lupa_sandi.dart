@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/login_page.dart';
+import 'package:pabrik_kayu/kode_OTP.dart';
 import 'package:pabrik_kayu/style.dart';
 
-class KodeOtp extends StatelessWidget {
-  const KodeOtp({super.key});
+class LupaSandi extends StatelessWidget {
+  const LupaSandi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,6 @@ class KodeOtp extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
               decoration: BoxDecoration(
@@ -26,7 +25,7 @@ class KodeOtp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "OTP",
+                    "Lupa Kata Sandi ?",
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -35,7 +34,7 @@ class KodeOtp extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 25),
-                  textfieldcostom("Kode Otp", hint: "Masukkan Kode OTP"),
+                  textfieldcostom("Email", hint: "Masukkan Email"),
 
                   const SizedBox(height: 15),
                   Container(
@@ -44,7 +43,7 @@ class KodeOtp extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => KodeOtp()),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: greenColor,
@@ -54,7 +53,7 @@ class KodeOtp extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        "Konfirmasi",
+                        "Kirim",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/lihat_laporan.dart';
+import 'package:pabrik_kayu/lupa_sandi.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
 
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       debugShowCheckedModeBanner: false,
       title: 'Masuk Akun',
       home: Scaffold(
-        backgroundColor: Color(0xffF8F6F1),
+        backgroundColor: cream,
         body: Center(
           child: Container(
             padding: EdgeInsets.all(30),
@@ -51,6 +52,28 @@ class _LoginPageState extends State<LoginPage> {
 
               textfieldcostom("Password", hint: "Password", obscureText: true,),
               
+              SizedBox(height: 5),
+
+              Column(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LupaSandi(),
+                      ),
+                    ),
+                    child: Text( 
+                    "Lupa kata sandi?",
+                    style: TextStyle(color: Colors.white,
+                    fontSize: 12),
+                    )
+                  ),
+                ],
+              ),
+
+
               SizedBox(height: 20),
               Container(
                 height: 45,
@@ -66,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.white),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Konfirmasi",
                     style: TextStyle(
                       color: Colors.white,
@@ -104,9 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ],
-          ),
-            
-          )
+          )),
         )
       ),
     );

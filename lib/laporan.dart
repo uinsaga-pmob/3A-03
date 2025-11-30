@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/style.dart';
 
 
 
@@ -6,7 +7,7 @@ class lihat_laporan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xffF8F6F1),
+        backgroundColor:cream,
         appBar: AppBar(
           title: Text('Lihat Laporan'),
           titleTextStyle: TextStyle(

@@ -14,7 +14,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cream, 
+      backgroundColor: cream,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

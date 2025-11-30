@@ -4,8 +4,6 @@ import 'package:pabrik_kayu/lupa_sandi.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
 
-
-
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,44 +12,45 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Masuk Akun',
-      home: Scaffold(
-        backgroundColor: cream,
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.all(30),
-            height: 500,
-            width: 300,
-            decoration: BoxDecoration(
-              color: greenColor,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
+    return Scaffold(
+      backgroundColor: cream,
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(30),
+          height: 500,
+          width: 300,
+          decoration: BoxDecoration(
+            color: greenColor,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            
-              // Judul Halaman Masuk
-            children:<Widget> [
+
+            // Judul Halaman Masuk
+            children: <Widget>[
               Text(
                 "Masuk",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-              
+
               SizedBox(height: 10),
-              textfieldcostom("username", hint: "Username",),
+              textfieldcostom("username", hint: "Username"),
               SizedBox(height: 10),
 
-              textfieldcostom("Password", hint: "Password", obscureText: true,),
-              
+              textfieldcostom("Password", hint: "Password", obscureText: true),
+
               SizedBox(height: 5),
 
               Column(),
@@ -61,18 +60,15 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LupaSandi(),
-                      ),
+                      MaterialPageRoute(builder: (context) => LupaSandi()),
                     ),
-                    child: Text( 
-                    "Lupa kata sandi?",
-                    style: TextStyle(color: Colors.white,
-                    fontSize: 12),
-                    )
+                    child: Text(
+                      "Lupa kata sandi?",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
                   ),
                 ],
               ),
-
 
               SizedBox(height: 20),
               Container(
@@ -81,7 +77,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => lihat_laporan())),
+                    MaterialPageRoute(builder: (context) => lihat_laporan()),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,
                     shape: RoundedRectangleBorder(
@@ -95,24 +92,22 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      ),
                     ),
                   ),
+                ),
               ),
               SizedBox(height: 20),
               Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Belum punya akun?  ",
-                  style: TextStyle(color: Colors.white,
-                  fontSize: 12),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Belum punya akun?  ",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
-                    GestureDetector(
+                  GestureDetector(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DaftarAkun(),
-                      ),
+                      MaterialPageRoute(builder: (context) => DaftarAkun()),
                     ),
                     child: const Text(
                       "daftar",
@@ -127,10 +122,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ],
-          )),
-        )
+          ),
+        ),
       ),
     );
   }
 }
-

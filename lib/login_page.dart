@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/style.dart';
+import 'package:pabrik_kayu/daftar_akun.dart';
 
 
 
@@ -36,26 +37,71 @@ class _LoginPageState extends State<LoginPage> {
             ),
             child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            
+              // Judul Halaman Masuk
+            children:<Widget> [
               Text(
                 "Masuk",
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
               ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Username', border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
-              ),
-              TextField( 
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
+              
+              SizedBox(height: 10),
+              textfieldcostom("username", hint: "Username",),
+              SizedBox(height: 10),
+
+              textfieldcostom("Password", hint: "Password", obscureText: true,),
+              
+              SizedBox(height: 20),
+              Container(
+                height: 45,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => lihat_laporan())),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: greenColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  child: const Text(
+                    "Konfirmasi",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => (Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => lihat_laporan()),
-                )
-                ),
-                child: Text('Konfirmasi'),
+              Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Belum punya akun?  ",
+                  style: TextStyle(color: Colors.white,
+                  fontSize: 12),
+                  ),
+                    GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DaftarAkun(),
+                      ),
+                    ),
+                    child: const Text(
+                      "daftar",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

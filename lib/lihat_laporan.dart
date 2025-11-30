@@ -17,42 +17,38 @@ class lihat_laporan extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
-            ),
+            laporan_barang(),
             Divider(
-              color: Colors.black
+              color: Colors.black,
             ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
-            ),
+            laporan_barang(),
             Divider(
-              color: Colors.black
+              color: Colors.black,
             ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
-            ),
+            laporan_barang(),
             Divider(
-              height: 1,
-              color: Colors.black
+              color: Colors.black,
             ),
           ],
         )
       );
+  }
+}
+
+class laporan_barang extends StatelessWidget {
+  const laporan_barang({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      title: Text("Nama Barangg", style: TextStyle(color: Colors.white)),
+      subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
+      leading: Icon(Icons.image, color: Colors.white, size: 50),
+      tileColor: Color(0xff386745),
+      trailing: Icon(Icons.download, color: Colors.white,),
+    );
   }
 }

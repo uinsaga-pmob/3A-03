@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/lupa_sandi.dart';
+import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
 
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => lihat_laporan()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,

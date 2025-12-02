@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/lupa_sandi.dart';
-import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
+import 'package:pabrik_kayu/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
 
-            // Judul Halaman Masuk
             children: <Widget>[
               Text(
                 "Masuk",
@@ -77,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(builder: (context) =>HomePage()),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,

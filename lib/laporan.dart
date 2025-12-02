@@ -1,59 +1,112 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/style.dart';
 
+void main() {
+  runApp(Laporan());
+}
 
-
-class lihat_laporan extends StatelessWidget {
+class Laporan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor:cream,
-        appBar: AppBar(
-          title: Text('Lihat Laporan'),
-          titleTextStyle: TextStyle(
-            color: const Color(0xff386745),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        body: ListView(
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Profil")),
+        body: Column(
           children: [
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
+            Center(
+              child: Container(
+                height: 221,
+                width: 337,
+                decoration: BoxDecoration(
+                  color: greenColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Nama Pengguna",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Angkaa", style: TextStyle(color: Colors.white)),
+                        Text(
+                          "Presentase",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text("Rating", style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                  ],
+                ),
+              ),
             ),
-            Divider(
-              color: Colors.black
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
-            ),
-            Divider(
-              color: Colors.black
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              title: Text("Nama Barang", style: TextStyle(color: Colors.white)),
-              subtitle: Text("Tanggal", style: TextStyle(color: Colors.white),),
-              leading: Icon(Icons.image, color: Colors.white, size: 50),
-              tileColor: Color(0xff386745),
-              trailing: Icon(Icons.download, color: Colors.white,),
-            ),
-            Divider(
-              height: 1,
-              color: Colors.black
-            ),
+            SizedBox(height: 40),
+            containerpropil("Data Pribadi", "lihat dan sunting informasi pribadi"),
+            containerpropil("Kehadiran", "Jam kerja dan kehadiran "),
+            containerpropil("Kinerja", "Kinerja Harian"),
+
+            SizedBox(height: 40),
+
+            Row(
+              children: [
+                Container(
+                  height: 25, width: 70,
+                  decoration: BoxDecoration(color: greenColor),
+                  child: Text("Tambah", style: TextStyle(color: Colors.white, fontSize: 20)),
+                ),
+                Container(
+                  height: 25, width: 70,
+                  decoration: BoxDecoration(color: greenColor),
+                  child: Text("Tambah", style: TextStyle(color: Colors.white, fontSize: 20)),
+                ),
+              ],
+            )
           ],
-        )
-      );
+        ),
+      ),
+    );
+  }
+}
+
+class containerpropil extends StatelessWidget {
+  const containerpropil(String title, String subtitle,{
+    super.key,
+  });
+final String title = "";
+final String subtitle = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      height: 73,
+      width: 337,
+      decoration: BoxDecoration(
+        color: greenColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: 12, color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 }

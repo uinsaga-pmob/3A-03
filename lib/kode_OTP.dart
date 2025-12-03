@@ -38,7 +38,7 @@ class KodeOtp extends StatelessWidget {
                   textfieldcostom("Kode Otp", hint: "Masukkan Kode OTP"),
 
                   const SizedBox(height: 15),
-                  Container(
+                  SizedBox(
                     height: 45,
                     width: double.infinity,
                     child: ElevatedButton(

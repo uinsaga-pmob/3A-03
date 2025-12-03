@@ -4,7 +4,6 @@ import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
 import 'package:pabrik_kayu/home_page.dart';
 
-
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -66,13 +65,13 @@ class LoginPage extends StatelessWidget {
               ),
 
               SizedBox(height: 20),
-              Container(
+              SizedBox(
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>HomePage()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,

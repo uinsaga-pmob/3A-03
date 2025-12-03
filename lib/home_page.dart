@@ -20,8 +20,9 @@ class _homepagestate extends State <HomePage> {
             ListTile(
               leading: CircleAvatar(),
               title: Text("Profesi"),
-              subtitle: Text("Username", ),
+              subtitle: Text("Username"),
               titleTextStyle: TextStyle(color: greenColor, fontSize: 20, fontWeight: FontWeight.bold),
+              subtitleTextStyle: TextStyle(color: greenColor, fontSize: 12, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 40),
           Row(

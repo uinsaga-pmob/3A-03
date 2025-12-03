@@ -4,12 +4,8 @@ import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/daftar_akun.dart';
 import 'package:pabrik_kayu/home_page.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

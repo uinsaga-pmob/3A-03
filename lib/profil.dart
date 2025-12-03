@@ -46,10 +46,10 @@ class Profil extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-            containerpropil("Data Pribadi", "lihat dan sunting informasi pribadi"),
-            containerpropil("Kehadiran", "Jam kerja dan kehadiran "),
-            containerpropil("Kinerja", "Kinerja Harian"),
-            containerpropil("Aktifitas", "Kegiatan"),
+            Containerpropil(title: "Data Pribadi", subtitle: "lihat dan sunting informasi pribadi"),
+            Containerpropil(title: "Kehadiran", subtitle: "Jam kerja dan kehadiran "),
+            Containerpropil(title: "Kinerja", subtitle: "Kinerja Harian"),
+            Containerpropil(title: "Aktifitas", subtitle: "Kegiatan"),
           ],
         ),
       ),
@@ -57,12 +57,13 @@ class Profil extends StatelessWidget {
   }
 }
 
-class containerpropil extends StatelessWidget {
-  const containerpropil(String title, String subtitle,{
+class Containerpropil extends StatelessWidget {
+  final String title ;
+  final String subtitle ;
+  const Containerpropil({ required this.title, required this.subtitle,
     super.key,
   });
-final String title = "";
-final String subtitle = "";
+
 
   @override
   Widget build(BuildContext context) {

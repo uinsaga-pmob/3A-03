@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/gaji.dart';
 import 'package:pabrik_kayu/laporan.dart';
-import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/data_pribadi.dart';
 import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/tambah_laporan.dart';
@@ -9,7 +8,8 @@ class Laporan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Laporan")),
+      backgroundColor: cream,
+      appBar: AppBar(title: Text("Input Kayu")),
       body: Column(
         children: [
           Container(
@@ -19,64 +19,151 @@ class Laporan extends StatelessWidget {
               color: greenColor,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      "Produksi Hari Ini",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                    Container(
-                      height: 28,
-                      width: 67,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.white, width: 1),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Aktif",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Produksi Hari Ini",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Angkaa", style: TextStyle(color: Colors.white)),
-                    Text("Presentase", style: TextStyle(color: Colors.white)),
-                    Text("Rating", style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-                SizedBox(height: 15),
-              ],
+                      Container(
+                        height: 28,
+                        width: 67,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.white, width: 1),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Aktif",
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            "10",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Total Masuk",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "2",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Proses",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "80%",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Presentase",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          SizedBox(height: 40),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DataPribadi()),
-            ),
-            child: Containerlaporan(
-              title: "Data Pribadi",
-              subtitle: "lihat dan sunting informasi pribadi",
-            ),
+          SizedBox(height: 60),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 35),
+                child: Text(
+                  "Kategori Keluaran",
+                  style: TextStyle(
+                    color: greenColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Containerlaporan(
+            title: "Katul",
+            subtitle: "Serutan Kayu dan Serbuk Gergaji",
+            presentase: "60%",
           ),
 
           Containerlaporan(
-            title: "Kehadiran",
-            subtitle: "Jam kerja dan kehadiran ",
+            title: "Kayu Lapis",
+            subtitle: "Lembaran Kayu",
+            presentase: "20%",
           ),
-          Containerlaporan(title: "Kinerja", subtitle: "Kinerja Harian"),
+          Containerlaporan(
+            title: "Tongkat",
+            subtitle: "Batang Tengah Sisa Pemotongan",
+            presentase: "10%",
+          ),
 
-          SizedBox(height: 40),
-
+          SizedBox(height: 35),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 35),
+                child: Text(
+                  "Laporan",
+                  style: TextStyle(
+                    color: greenColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -94,9 +181,15 @@ class Laporan extends StatelessWidget {
                       borderRadius: BorderRadiusGeometry.circular(15),
                     ),
                   ),
-                  child: Text(
-                    "Tambah Laporan",
-                    style: TextStyle(color: Colors.white),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add, size: 25, color: Colors.white),
+                      Text(
+                        "Tambah Laporan",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -128,9 +221,11 @@ class Laporan extends StatelessWidget {
 class Containerlaporan extends StatelessWidget {
   final String title;
   final String subtitle;
+  final String presentase;
   const Containerlaporan({
     required this.title,
     required this.subtitle,
+    required this.presentase,
     super.key,
   });
 
@@ -141,24 +236,45 @@ class Containerlaporan extends StatelessWidget {
       height: 73,
       width: 337,
       decoration: BoxDecoration(
-        color: greenColor,
+        color: const Color.fromARGB(139, 0, 0, 0),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
+              ],
+            ),
+            Container(
+              height: 39,
+              width: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.white, width: 1),
+              ),
+              child: Center(
+                child: Text(
+                  presentase,
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
               ),
             ),
-            Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.white)),
           ],
         ),
       ),

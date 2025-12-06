@@ -9,24 +9,42 @@ class Laporan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Profil")),
+      appBar: AppBar(title: Text("Laporan")),
       body: Column(
         children: [
           Container(
-            height: 221,
+            height: 184,
             width: 337,
             decoration: BoxDecoration(
               color: greenColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  "Nama Pengguna",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "Produksi Hari Ini",
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                    Container(
+                      height: 28,
+                      width: 67,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white, width: 1),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Aktif",
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -45,17 +63,17 @@ class Laporan extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => DataPribadi()),
             ),
-            child: Containerpropil(
+            child: Containerlaporan(
               title: "Data Pribadi",
               subtitle: "lihat dan sunting informasi pribadi",
             ),
           ),
 
-          Containerpropil(
+          Containerlaporan(
             title: "Kehadiran",
             subtitle: "Jam kerja dan kehadiran ",
           ),
-          Containerpropil(title: "Kinerja", subtitle: "Kinerja Harian"),
+          Containerlaporan(title: "Kinerja", subtitle: "Kinerja Harian"),
 
           SizedBox(height: 40),
 
@@ -76,7 +94,10 @@ class Laporan extends StatelessWidget {
                       borderRadius: BorderRadiusGeometry.circular(15),
                     ),
                   ),
-                  child: Text("Tambah", style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    "Tambah Laporan",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
               ElevatedButton(
@@ -104,10 +125,10 @@ class Laporan extends StatelessWidget {
   }
 }
 
-class Containerpropil extends StatelessWidget {
+class Containerlaporan extends StatelessWidget {
   final String title;
   final String subtitle;
-  const Containerpropil({
+  const Containerlaporan({
     required this.title,
     required this.subtitle,
     super.key,

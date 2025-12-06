@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/home_page.dart';
 import 'package:pabrik_kayu/laporan.dart';
+import 'package:pabrik_kayu/profil.dart';
 
 void main() {
   runApp(kayu());
@@ -11,7 +13,7 @@ class kayu extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'halaman masuk',
-      home: Laporan(),
+      home: HomePage(),
     );
   }
 }

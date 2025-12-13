@@ -13,7 +13,14 @@ class _homepagestate extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('PT. Genk Solo Sukses')),
+      backgroundColor: cream,
+      appBar: AppBar(
+        title: Text(
+          'PT. Genk Solo Sukses',
+          style: TextStyle(color: greenColor),
+        ),
+        backgroundColor: cream,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

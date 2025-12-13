@@ -7,7 +7,8 @@ class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Laporan")),
+      backgroundColor: cream,
+      appBar: AppBar(title: Text("Profil")),
       body: Center(
         child: Column(
           children: [

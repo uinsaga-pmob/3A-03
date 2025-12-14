@@ -7,89 +7,153 @@ class DataPribadi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Data Pribadi', style: TextStyle(color: greenColor)),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: cream,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              _Item(label: 'Nama Pegawai', value: 'Bahlil'),
-              _Divider(),
+      backgroundColor: greenColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: greenColor),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Text(
+                    'Data Pribadi',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-              _Item(label: 'Perusahaan', value: 'PT. Pabrik Kayu'),
-              _Divider(),
+            // Content
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: cream,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Profile Card
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Color(0xFFE5D9FF),
+                              child: Icon(Icons.person, color: Colors.deepPurple),
+                            ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'Bahlil',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'PT. Pabrik kayu',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
 
-              _Item(label: 'Nama Lengkap', value: 'Bahlil Lah Dahliat'),
-              _Divider(),
+                      const SizedBox(height: 24),
 
-              _Item(label: 'Email', value: 'Bahlil@gmail.com'),
-              _Divider(),
+                      const Text(
+                        'Informasi Pegawai',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: greenColor,
+                        ),
+                      ),
 
-              _Item(label: 'Telepon', value: '085782134567'),
-              _Divider(),
+                      const SizedBox(height: 16),
 
-              _Item(label: 'Username', value: 'Bahlil'),
-              _Divider(),
-
-              _Item(label: 'Profesi', value: 'Pegawai'),
-              _Divider(),
-
-              _Item(label: 'Tanggal Lahir', value: '07/08/1997'),
-              _Divider(),
-
-              _Item(label: 'Alamat', value: 'ds. kkk. 03/07 jakarta pusat'),
-            ],
-          ),
+                      _buildField(label: 'Nama Pegawai', value: 'Bahlil Lah Dahlil'),
+                      _buildField(label: 'Email', value: 'Bahlil@gmail.com'),
+                      _buildField(label: 'Telepon', value: '085782134567'),
+                      _buildField(label: 'Username', value: 'Bahlil'),
+                      _buildField(label: 'Profesi', value: 'Pegawai'),
+                      _buildField(label: 'Tanggal Lahir', value: '07/08/1997'),
+                      _buildField(label: 'Alamat', value: 'ds. kkk. 03/07 jakarta pusat'),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
-class _Item extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _Item({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-        const SizedBox(height: 6),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-      ],
-    );
-  }
-}
-
-class _Divider extends StatelessWidget {
-  const _Divider();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 12),
-      child: Divider(height: 1),
+  Widget _buildField({required String label, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '*$label',
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 6),
+          TextFormField(
+            initialValue: value,
+            readOnly: true,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: greenColor, width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: greenColor, width: 2),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -7,184 +7,197 @@ class Gaji extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: cream,
-        title: const Text(
-          'Gaji',
-          style: TextStyle(color: greenColor, fontWeight: FontWeight.bold),
+      backgroundColor: cream,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Header
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: greenColor,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Gaji',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 40), // balance center title
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              // Current Month Card
+              _card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Current Month',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Oktober 2025',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        _SalaryValue(title: 'Gaji Kotor', value: '0.000'),
+                        _SalaryValue(title: 'Gaji Bersih', value: '0.000'),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Salary Breakdown
+              _card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Salary Breakdown',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    _RowItem(label: 'Gaji Pokok', value: '0.000'),
+                    _RowItem(label: 'Lembur', value: '0.000'),
+                    _RowItem(label: 'Bonus Kinerja', value: '0.000'),
+                    _RowItem(label: 'Pajak', value: '-0.00'),
+                    _RowItem(label: 'Asuransi', value: '-0.00'),
+                    Divider(color: Colors.white24),
+                    _RowItem(
+                      label: 'Gaji Bersih',
+                      value: '0.000',
+                      isBold: true,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Riwayat
+              _card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Riwayat',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    Text('Oktober 2024', style: TextStyle(color: Colors.white)),
+                    Text(
+                      'Dibayar Oktober 1, 2024',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    SizedBox(height: 8),
+                    Text('August 2024', style: TextStyle(color: Colors.white)),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SalaryCard(),
-            const SizedBox(height: 24),
-
-            const Text(
-              'Salary Breakdown',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            const BreakdownItem(title: 'Gaji Pokok', value: '0.000'),
-            const BreakdownItem(title: 'Lembur', value: '0.000'),
-            const BreakdownItem(title: 'Bonus Kinerja', value: '0.000'),
-            const BreakdownItem(title: 'Pajak', value: '-0.00', negative: true),
-            const BreakdownItem(
-              title: 'Asuransi',
-              value: '-0.00',
-              negative: true,
-            ),
-
-            const SizedBox(height: 24),
-
-            const Text(
-              'Riwayat',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            const HistoryItem(
-              month: 'Oktober 2024',
-              date: 'Dibayar Oktober 1, 2024',
-              gross: '0.000',
-              net: '0.000',
-            ),
-            const HistoryItem(
-              month: 'Agustus 2024',
-              date: 'Dibayar Agustus 1, 2024',
-              gross: '0.000',
-              net: '0.000',
-            ),
-          ],
-        ),
       ),
     );
   }
-}
 
-class SalaryCard extends StatelessWidget {
-  const SalaryCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _card({required Widget child}) {
     return Container(
-      width: 359,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: greenColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Current Month', style: TextStyle(color: Colors.white)),
-          SizedBox(height: 4),
-          Text(
-            'Oktober 2025',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text('Gaji Bersih', style: TextStyle(color: Colors.white)),
-          SizedBox(height: 8),
-          Text(
-            '0.000',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BreakdownItem extends StatelessWidget {
-  final String title;
-  final String value;
-  final bool negative;
-
-  const BreakdownItem({
-    super.key,
-    required this.title,
-    required this.value,
-    this.negative = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title),
-          Text(
-            value,
-            style: TextStyle(
-              color: negative ? Colors.red : Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HistoryItem extends StatelessWidget {
-  final String month;
-  final String date;
-  final String gross;
-  final String net;
-
-  const HistoryItem({
-    super.key,
-    required this.month,
-    required this.date,
-    required this.gross,
-    required this.net,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: greenColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: child,
+    );
+  }
+}
+
+class _SalaryValue extends StatelessWidget {
+  final String title;
+  final String value;
+
+  const _SalaryValue({required this.title, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(color: Colors.white70)),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RowItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool isBold;
+
+  const _RowItem({
+    required this.label,
+    required this.value,
+    this.isBold = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final style = TextStyle(
+      color: Colors.white,
+      fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            month,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(date, style: const TextStyle(color: Colors.white)),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text('Gaji Kotor: $gross'), Text('Gaji Bersih: $net')],
-          ),
+          Text(label, style: style),
+          Text(value, style: style),
         ],
       ),
     );

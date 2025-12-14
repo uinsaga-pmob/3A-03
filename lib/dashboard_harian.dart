@@ -1,29 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/style.dart';
 
 class DashboardHarian extends StatelessWidget {
-  final List<double> dataHarian = [
-    5,
-    7,
-    6,
-    9,
-    8,
-    10,
-    12,
-    11,
-    14,
-    13,
-    10,
-    9,
-    8,
-    7,
-    6,
-    5,
-    7,
-    9,
-    12,
-    11,
-  ];
+  final List<double> dataHarian = [5, 7, 6, 9, 8, 10, 5];
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +12,25 @@ class DashboardHarian extends StatelessWidget {
       child: Column(
         children: [
           Card(
+            color: cream,
             elevation: 2,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: SizedBox(
-                height: 250,
+                height: 180,
+                width: 337,
                 child: LineChart(
                   LineChartData(
+                    borderData: FlBorderData(show: false),
                     minY: 0,
-                    maxY: (dataHarian.reduce((a, b) => a > b ? a : b)) + 2,
+                    maxY: 15,
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          reservedSize: 30,
-                          interval: 5,
                           getTitlesWidget: (value, meta) {
                             return Text(
                               "H${value.toInt()}",
@@ -66,39 +47,22 @@ class DashboardHarian extends StatelessWidget {
                             FlSpot(i.toDouble() + 1, dataHarian[i]),
                         ],
                         isCurved: true,
-                        barWidth: 3,
-                        dotData: const FlDotData(show: false),
+                        color: const Color.fromARGB(255, 56, 103, 69),
+                        barWidth: 2,
+                        dotData: FlDotData(
+                          show: true,
+                          getDotPainter: (spot, percent, barData, index) {
+                            return FlDotCirclePainter(color: Color(0xff4AEB78));
+                          },
+                        ),
+                        belowBarData: BarAreaData(
+                          show: true,
+                          color: const Color.fromARGB(148, 56, 103, 69),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          Card(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text("Hari")),
-                  DataColumn(label: Text("Nilai")),
-                ],
-                rows: [
-                  for (int i = 0; i < dataHarian.length; i++)
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Hari ${i + 1}")),
-                        DataCell(Text(dataHarian[i].toString())),
-                      ],
-                    ),
-                ],
               ),
             ),
           ),

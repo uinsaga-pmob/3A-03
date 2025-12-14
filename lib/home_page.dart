@@ -3,6 +3,7 @@ import 'package:pabrik_kayu/gaji.dart';
 import 'package:pabrik_kayu/laporan.dart';
 import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
+import 'package:pabrik_kayu/dashboard_harian.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -140,20 +141,7 @@ class _homepagestate extends State<HomePage> {
                     subtitle: "Manajemen Pembayaran Gaji ",
                   ),
                 ),
-
-                SizedBox(height: 20),
-                Container(
-                  width: 337,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: greenColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Diagram"),
-                  ),
-                ),
+                DashboardHarian(),
               ],
             ),
           ],

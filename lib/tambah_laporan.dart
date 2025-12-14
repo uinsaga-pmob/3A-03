@@ -7,41 +7,27 @@ class TambahLaporan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:cream,
+      backgroundColor: cream,
       appBar: AppBar(
-        backgroundColor:cream,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: greenColor),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Tambah Laporan',
-          style: TextStyle(
-            color: greenColor,
-            fontWeight: FontWeight.bold,
+        title: Text("Tambah Laporan", style: TextStyle(color: greenColor)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
           ),
         ),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _itemButton(
-              icon: Icons.terrain,
-              label: 'Katul',
-            ),
+            _itemButton(icon: Icons.terrain, label: 'Katul'),
             const SizedBox(height: 14),
-            _itemButton(
-              icon: Icons.layers,
-              label: 'Kayu Lapis',
-            ),
+            _itemButton(icon: Icons.layers, label: 'Kayu Lapis'),
             const SizedBox(height: 14),
-            _itemButton(
-              icon: Icons.circle,
-              label: 'Tongkat',
-            ),
+            _itemButton(icon: Icons.circle, label: 'Tongkat'),
             const SizedBox(height: 30),
 
             _actionButton(
@@ -82,11 +68,7 @@ class TambahLaporan extends StatelessWidget {
     );
   }
 
-  // ===== Widget Item =====
-  Widget _itemButton({
-    required IconData icon,
-    required String label,
-  }) {
+  Widget _itemButton({required IconData icon, required String label}) {
     return Container(
       height: 70,
       decoration: BoxDecoration(
@@ -119,7 +101,6 @@ class TambahLaporan extends StatelessWidget {
     );
   }
 
-  // ===== Widget Action =====
   Widget _actionButton({
     required IconData icon,
     required String label,
@@ -139,10 +120,7 @@ class TambahLaporan extends StatelessWidget {
             children: [
               Icon(icon, color: Colors.white),
               const SizedBox(height: 4),
-              Text(
-                label,
-                style: const TextStyle(color: Colors.white),
-              ),
+              Text(label, style: const TextStyle(color: Colors.white)),
             ],
           ),
         ),

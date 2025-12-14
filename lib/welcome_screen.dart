@@ -26,7 +26,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 color: greenColor,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Image(image: AssetImage('assets/logo pabrik kayu.png')),
+              child: Image(
+                image: AssetImage('assets/logo pabrik kayu.png'),
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 40),
             const Text(

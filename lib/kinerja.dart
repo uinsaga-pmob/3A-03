@@ -9,7 +9,17 @@ class Kinerja extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
-      appBar: AppBar(title: Text('PT. Genk Solo Sukses')),
+      appBar: AppBar(
+        title: Text("Profil", style: TextStyle(color: greenColor)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(child: Center(child: DashboardHarian())),
       ),

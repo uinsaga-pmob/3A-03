@@ -8,35 +8,20 @@ class DataPribadi extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: greenColor,
+      appBar: AppBar(
+        title: Text("Data Pribadi", style: TextStyle(color: cream)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: cream,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: greenColor),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: greenColor),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Text(
-                    'Data Pribadi',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Content
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -49,7 +34,6 @@ class DataPribadi extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Profile Card
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -68,7 +52,10 @@ class DataPribadi extends StatelessWidget {
                             const CircleAvatar(
                               radius: 24,
                               backgroundColor: Color(0xFFE5D9FF),
-                              child: Icon(Icons.person, color: Colors.deepPurple),
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.deepPurple,
+                              ),
                             ),
                             const SizedBox(width: 12),
                             Column(
@@ -87,7 +74,7 @@ class DataPribadi extends StatelessWidget {
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -105,13 +92,19 @@ class DataPribadi extends StatelessWidget {
 
                       const SizedBox(height: 16),
 
-                      _buildField(label: 'Nama Pegawai', value: 'Bahlil Lah Dahlil'),
+                      _buildField(
+                        label: 'Nama Pegawai',
+                        value: 'Bahlil Lah Dahlil',
+                      ),
                       _buildField(label: 'Email', value: 'Bahlil@gmail.com'),
                       _buildField(label: 'Telepon', value: '085782134567'),
                       _buildField(label: 'Username', value: 'Bahlil'),
                       _buildField(label: 'Profesi', value: 'Pegawai'),
                       _buildField(label: 'Tanggal Lahir', value: '07/08/1997'),
-                      _buildField(label: 'Alamat', value: 'ds. kkk. 03/07 jakarta pusat'),
+                      _buildField(
+                        label: 'Alamat',
+                        value: 'ds. kkk. 03/07 jakarta pusat',
+                      ),
                     ],
                   ),
                 ),
@@ -131,17 +124,17 @@ class DataPribadi extends StatelessWidget {
         children: [
           Text(
             '*$label',
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
           const SizedBox(height: 6),
           TextFormField(
             initialValue: value,
             readOnly: true,
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(color: greenColor, width: 2),

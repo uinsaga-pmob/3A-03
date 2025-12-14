@@ -10,7 +10,17 @@ class Profil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
-      appBar: AppBar(title: Text("Profil")),
+      appBar: AppBar(
+        title: Text("Profil", style: TextStyle(color: greenColor)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           children: [

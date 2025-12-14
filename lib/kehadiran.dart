@@ -43,9 +43,9 @@ class _KehadiranState extends State<Kehadiran> {
       await _initializeCamera;
       final image = await _controller.takePicture();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Foto berhasil diambil')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Foto berhasil diambil')));
 
       // image.path → bisa kamu simpan / upload
       print(image.path);
@@ -59,18 +59,13 @@ class _KehadiranState extends State<Kehadiran> {
     return Scaffold(
       backgroundColor: cream,
       appBar: AppBar(
-        backgroundColor: cream,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: greenColor),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: Text("Absensi", style: TextStyle(color: greenColor)),
         centerTitle: true,
-        title: const Text(
-          'Absensi',
-          style: TextStyle(
-            color: greenColor,
-            fontWeight: FontWeight.w600,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
           ),
         ),
       ),
@@ -122,4 +117,3 @@ class _KehadiranState extends State<Kehadiran> {
     );
   }
 }
-

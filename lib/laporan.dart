@@ -9,7 +9,17 @@ class Laporan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
-      appBar: AppBar(title: Text("Input Kayu")),
+      appBar: AppBar(
+        title: Text("Input Kayu", style: TextStyle(color: greenColor)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Container(

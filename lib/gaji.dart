@@ -8,39 +8,23 @@ class Gaji extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
+      appBar: AppBar(
+        title: Text("Gaji", style: TextStyle(color: greenColor)),
+        centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // Header
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: greenColor,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                  const Expanded(
-                    child: Center(
-                      child: Text(
-                        'Gaji',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 40), // balance center title
-                ],
-              ),
-
               const SizedBox(height: 24),
-
-              // Current Month Card
               _card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,14 +49,12 @@ class Gaji extends StatelessWidget {
                         _SalaryValue(title: 'Gaji Kotor', value: '0.000'),
                         _SalaryValue(title: 'Gaji Bersih', value: '0.000'),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
 
               const SizedBox(height: 16),
-
-              // Salary Breakdown
               _card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +84,6 @@ class Gaji extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
-
-              // Riwayat
               _card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

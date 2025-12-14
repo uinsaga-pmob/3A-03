@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/data_pribadi.dart';
+import 'package:pabrik_kayu/kehadiran.dart';
+import 'package:pabrik_kayu/kinerja.dart';
 import 'package:pabrik_kayu/style.dart';
 
 class Profil extends StatelessWidget {
@@ -51,13 +53,26 @@ class Profil extends StatelessWidget {
                 subtitle: "lihat dan sunting informasi pribadi",
               ),
             ),
-
-            Containerpropil(
-              title: "Kehadiran",
-              subtitle: "Jam kerja dan kehadiran ",
+            InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Kehadiran()),
+              ),
+              child: Containerpropil(
+                title: "Kehadiran",
+                subtitle: "Jam kerja dan kehadiran ",
+              ),
             ),
-            Containerpropil(title: "Kinerja", subtitle: "Kinerja Harian"),
-
+            InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Kinerja()),
+              ),
+              child: Containerpropil(
+                title: "Kinerja",
+                subtitle: "Kinerja Harian",
+              ),
+            ),
             SizedBox(height: 40),
           ],
         ),

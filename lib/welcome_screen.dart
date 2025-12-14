@@ -25,11 +25,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               decoration: BoxDecoration(
                 color: greenColor,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Color(0x99000000),
-                  width: 1,
-                ),
               ),
+              child: Image(image: AssetImage('assets/logo pabrik kayu.png')),
             ),
             const SizedBox(height: 40),
             const Text(
@@ -45,10 +42,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
             const Text(
               "selamat datang",
-              style: TextStyle(
-                fontSize: 14,
-                color:greenColor,
-              ),
+              style: TextStyle(fontSize: 14, color: greenColor),
             ),
 
             const SizedBox(height: 50),
@@ -57,10 +51,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               height: 45,
               child: ElevatedButton(
                 onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage(),
-                    ),
-                  ),
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor,
                   shape: RoundedRectangleBorder(
@@ -82,10 +75,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               height: 45,
               child: ElevatedButton(
                 onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DaftarAkun(),
-                      ),
-                    ),
+                  context,
+                  MaterialPageRoute(builder: (context) => DaftarAkun()),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor,
                   shape: RoundedRectangleBorder(

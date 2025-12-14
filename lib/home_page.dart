@@ -23,128 +23,144 @@ class _homepagestate extends State<HomePage> {
         backgroundColor: cream,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ListTile(
-              leading: CircleAvatar(),
-              title: Text("Profesi"),
-              subtitle: Text("Username"),
-              titleTextStyle: TextStyle(
-                color: greenColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              subtitleTextStyle: TextStyle(
-                color: greenColor,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 72,
-                  width: 153,
-                  decoration: BoxDecoration(
-                    color: greenColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Input Hari ini",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                        Text(
-                          "10",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 30),
-                Container(
-                  height: 72,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: greenColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Pendapatan Bulanan",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                        Text(
-                          "3.000.000",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 40),
-            Row(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 20),
-                Text(
-                  "Main Menu",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                ListTile(
+                  leading: CircleAvatar(),
+                  title: Text("Profesi"),
+                  subtitle: Text("Username"),
+                  titleTextStyle: TextStyle(
                     color: greenColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
+                  subtitleTextStyle: TextStyle(
+                    color: greenColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 72,
+                      width: 153,
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Input Hari ini",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "10",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                    Container(
+                      height: 72,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Pendapatan Bulanan",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "3.000.000",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 20),
+                    Text(
+                      "Main Menu",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: greenColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Profil()),
+                      ),
+                      child: Containerhome(
+                        title: "Profile",
+                        subtitle: "Data Pribadi, Kehadiran, Tarif",
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Laporan()),
+                      ),
+                      child: Containerhome(
+                        title: "Laporan",
+                        subtitle: "Katul, Kayu Lapis, Tongkat",
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Gaji()),
+                      ),
+                      child: Containerhome(
+                        title: "Gaji",
+                        subtitle: "Manajemen Pembayaran Gaji ",
+                      ),
+                    ),
+                    DashboardHarian(),
+                  ],
                 ),
               ],
             ),
-            Column(
-              children: [
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Profil()),
-                  ),
-                  child: Containerhome(
-                    title: "Profile",
-                    subtitle: "Data Pribadi, Kehadiran, Tarif",
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Laporan()),
-                  ),
-                  child: Containerhome(
-                    title: "Laporan",
-                    subtitle: "Katul, Kayu Lapis, Tongkat",
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Gaji()),
-                  ),
-                  child: Containerhome(
-                    title: "Gaji",
-                    subtitle: "Manajemen Pembayaran Gaji ",
-                  ),
-                ),
-                DashboardHarian(),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

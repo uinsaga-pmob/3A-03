@@ -22,14 +22,3 @@ class Kayu extends StatelessWidget {
     );
   }
 }
-
-class kayu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'halaman masuk',
-      home: WelcomeScreen(),
-    );
-  }
-}

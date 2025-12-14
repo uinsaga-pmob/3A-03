@@ -72,7 +72,7 @@ class TambahLaporan extends StatelessWidget {
                 onPressed: () {},
                 child: const Text(
                   'Kirim',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/style.dart';
 
 class TambahLaporan extends StatelessWidget {
@@ -55,7 +56,10 @@ class TambahLaporan extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => lihat_laporan()),
+                ),
                 child: const Text(
                   'Kirim',
                   style: TextStyle(fontSize: 16, color: Colors.white),

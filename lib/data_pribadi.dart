@@ -9,6 +9,7 @@ class DataPribadi extends StatelessWidget {
     return Scaffold(
       backgroundColor: greenColor,
       appBar: AppBar(
+        backgroundColor: greenColor,
         title: Text("Data Pribadi", style: TextStyle(color: cream)),
         centerTitle: true,
         leading: CircleAvatar(

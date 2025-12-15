@@ -10,7 +10,7 @@ class Kinerja extends StatelessWidget {
     return Scaffold(
       backgroundColor: cream,
       appBar: AppBar(
-        title: Text("Profil", style: TextStyle(color: greenColor)),
+        title: Text("Kinerja", style: TextStyle(color: greenColor)),
         centerTitle: true,
         leading: CircleAvatar(
           backgroundColor: greenColor,

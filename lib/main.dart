@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/welcome_screen.dart';
+// import 'package:pabrik_kayu/welcome_screen.dart';
 import 'package:camera/camera.dart';
+import 'package:pabrik_kayu/data_karyawan.dart';
+// import 'package:sqflite/sqflite.dart';
 
 late List<CameraDescription> cameras;
 
@@ -18,7 +20,7 @@ class Kayu extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'halaman masuk',
-      home: WelcomeScreen(),
+      home: EmployeePage(),
     );
   }
 }

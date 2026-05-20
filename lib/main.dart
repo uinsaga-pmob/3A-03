@@ -1,26 +1,36 @@
+//import 'dart:math';
+
 import 'package:flutter/material.dart';
-// import 'package:pabrik_kayu/welcome_screen.dart';
-import 'package:camera/camera.dart';
-import 'package:pabrik_kayu/data_karyawan.dart';
-// import 'package:sqflite/sqflite.dart';
+//import 'package:pabrik_kayu/welcome_screen.dart';
+//import 'package:camera/camera.dart';
+//import 'package:pabrik_kayu/data_karyawan.dart';
+//import 'package:pabrik_kayu/data_kayu.dart';
+import 'package:pabrik_kayu/kehadiran.dart';
+//import 'package:sqflite/sqflite.dart';
+//import 'package:pabrik_kayu/kehadiran.dart';
 
-late List<CameraDescription> cameras;
+//late List<CameraDescription> cameras;
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras();
-  runApp(const Kayu());
+//Future<void> main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+  //cameras = await availableCameras();
+  //runApp(const Kayu());
+//}
+
+//class Kayu extends StatelessWidget {
+void main() {
+  runApp(const MyApp());
 }
 
-class Kayu extends StatelessWidget {
-  const Kayu({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'halaman masuk',
-      home: EmployeePage(),
+      title: 'Pabrik Kayu',
+      home: Kehadiran(),
     );
   }
 }

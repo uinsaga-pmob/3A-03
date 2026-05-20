@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:camera/camera.dart';
-import 'main.dart';
+import 'package:path/path.dart' as path;
+import 'package:sqflite/sqflite.dart';
 
 class Kehadiran extends StatefulWidget {
   const Kehadiran({super.key});
@@ -11,108 +11,149 @@ class Kehadiran extends StatefulWidget {
 }
 
 class _KehadiranState extends State<Kehadiran> {
-  late CameraController _controller;
-  late Future<void> _initializeCamera;
+
+  String? selectedKaryawan;
+  String? selectedStatus;
+
+  List<String> daftarKaryawan = [];
+
+  final List<String> statusList = [
+    "Hadir",
+    "Izin",
+    "Sakit",
+    "Alpha"
+  ];
+
+  String tanggal =
+      DateTime.now().toString().substring(0,10);
+
+  String jam =
+    "${DateTime.now().hour}:${DateTime.now().minute}";
 
   @override
   void initState() {
     super.initState();
 
-    final frontCamera = cameras.firstWhere(
-      (camera) => camera.lensDirection == CameraLensDirection.front,
-      orElse: () => cameras.first,
+    getKaryawan();
+}
+
+Future<void> getKaryawan() async {
+  try {
+    final db = await openDatabase(
+      path.join(await getDatabasesPath(), 'pabrik_kayu.db'),
     );
 
-    _controller = CameraController(
-      frontCamera,
-      ResolutionPreset.medium,
-      enableAudio: false,
+    final data = await db.query('employees');
+
+    setState(() {
+      daftarKaryawan = data
+          .map((item) => item['nama'].toString())
+          .toList();
+    });
+
+  } catch (e) {
+    print("e");
+  }
+}
+  void simpanAbsensi() {
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "$selectedKaryawan berhasil absen",
+        ),
+      ),
     );
-
-    _initializeCamera = _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _takePicture() async {
-    try {
-      await _initializeCamera;
-      final image = await _controller.takePicture();
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Foto berhasil diambil')));
-
-      // image.path → bisa kamu simpan / upload
-      print(image.path);
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: cream,
+
       appBar: AppBar(
-        title: Text("Absensi", style: TextStyle(color: greenColor)),
-        centerTitle: true,
-        leading: CircleAvatar(
-          backgroundColor: greenColor,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: cream),
-            onPressed: () => Navigator.pop(context),
+        title: Text(
+          "Absensi",
+          style: TextStyle(
+            color: greenColor,
           ),
         ),
+        centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: _initializeCamera,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: CameraPreview(_controller),
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
+
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+
+        child: Column(
+          children: [
+
+            DropdownButtonFormField<String>(
+              initialValue: selectedKaryawan,
+              decoration: const InputDecoration(
+                labelText: "Pilih Karyawan",
+                border: OutlineInputBorder(),
+              ),
+              items: daftarKaryawan.map((item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedKaryawan = value;
+                });
               },
             ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
+
+            const SizedBox(height: 15),
+
+            DropdownButtonFormField<String>(
+              initialValue: selectedStatus,
+              decoration: const InputDecoration(
+                labelText: "Status",
+                border: OutlineInputBorder(),
+              ),
+              items: statusList.map((item){
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
+              onChanged: (value){
+                setState(() {
+                  selectedStatus=value;
+                });
+              },
+            ),
+
+            const SizedBox(height: 15),
+
+            ListTile(
+              title: Text("Tanggal"),
+              subtitle: Text(tanggal),
+            ),
+
+            ListTile(
+              title: Text("Jam Masuk"),
+              subtitle: Text(jam),
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
               width: double.infinity,
-              height: 56,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: greenColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-                onPressed: _takePicture,
-                icon: const Icon(Icons.camera_alt, color: Colors.white),
-                label: const Text(
-                  'Ambil Foto Selfie',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+              child: ElevatedButton(
+                onPressed: simpanAbsensi,
+                child: const Text(
+                  "Absen"
                 ),
               ),
-            ),
-          ),
-        ],
+            )
+
+          ],
+        ),
       ),
     );
   }

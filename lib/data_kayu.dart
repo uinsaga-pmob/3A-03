@@ -3,21 +3,21 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 
-class EmployeePage extends StatefulWidget {
-  const EmployeePage({super.key});
+class KayuPage extends StatefulWidget {
+  const KayuPage({super.key});
 
   @override
-  State<EmployeePage> createState() => _EmployeePageState();
+  State<KayuPage> createState() => _KayuPageState();
 }
 
-class _EmployeePageState extends State<EmployeePage> {
+class _KayuPageState extends State<KayuPage> {
   Database? database;
 
   final TextEditingController namakayuController = TextEditingController();
   final TextEditingController kategoriController = TextEditingController();
   final TextEditingController stokController = TextEditingController();
 
-  List<Map<String, dynamic>> employeeList = [];
+  List<Map<String, dynamic>> kayuList = [];
 
   @override
   void initState() {
@@ -40,29 +40,39 @@ class _EmployeePageState extends State<EmployeePage> {
   // =========================
   // INIT DATABASE
   // =========================
-  Future<void> initDatabase() async {
-    database = await openDatabase(
-      path.join(await getDatabasesPath(), 'pabrik_kayu.db'),
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE employees(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            namakayu TEXT,
-            kategori TEXT,
-            stok INTEGER
-          )
-        ''');
-      },
-    );
+ Future<void> initDatabase() async {
+  database = await openDatabase(
+    path.join(await getDatabasesPath(), 'pabrik_kayu.db'),
+    version: 2,
+    onCreate: (db, version) async {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS kayu(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          namakayu TEXT,
+          kategori TEXT,
+          stok INTEGER
+        )
+      ''');
+    },
+    onUpgrade: (db, oldVersion, newVersion) async {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS kayu(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          namakayu TEXT,
+          kategori TEXT,
+          stok INTEGER
+        )
+      ''');
+    },
+  );
 
-    await getEmployees();
-  }
+  await getkayu();
+}
 
   // =========================
   // CREATE
   // =========================
-  Future<void> addEmployee() async {
+  Future<void> addkayu() async {
     if (database == null) return;
 
     if (namakayuController.text.isEmpty ||
@@ -71,27 +81,27 @@ class _EmployeePageState extends State<EmployeePage> {
       return;
     }
 
-    await database!.insert('employees', {
+    await database!.insert('kayu', {
       'namakayu': namakayuController.text,
       'kategori': kategoriController.text,
       'stok': int.parse(stokController.text),
     });
 
     clearForm();
-    await getEmployees();
+    await getkayu();
   }
 
   // =========================
   // READ
   // =========================
-  Future<void> getEmployees() async {
+  Future<void> getkayu() async {
     if (database == null) return;
 
-    final data = await database!.query('employees');
+    final data = await database!.query('kayu');
 
     if (mounted) {
       setState(() {
-        employeeList = data;
+        kayuList = data;
       });
     }
   }
@@ -99,11 +109,11 @@ class _EmployeePageState extends State<EmployeePage> {
   // =========================
   // UPDATE
   // =========================
-  Future<void> updateEmployee(int id) async {
+  Future<void> updatekayu(int id) async {
     if (database == null) return;
 
     await database!.update(
-      'employees',
+      'kayu',
       {
         'namakayu': namakayuController.text,
         'kategori': kategoriController.text,
@@ -114,7 +124,7 @@ class _EmployeePageState extends State<EmployeePage> {
     );
 
     clearForm();
-    await getEmployees();
+    await getkayu();
 
     if (mounted) {
       Navigator.pop(context);
@@ -124,12 +134,12 @@ class _EmployeePageState extends State<EmployeePage> {
   // =========================
   // DELETE
   // =========================
-  Future<void> deleteEmployee(int id) async {
+  Future<void> deletekayu(int id) async {
     if (database == null) return;
 
-    await database!.delete('employees', where: 'id = ?', whereArgs: [id]);
+    await database!.delete('kayu', where: 'id = ?', whereArgs: [id]);
 
-    await getEmployees();
+    await getkayu();
   }
 
   // =========================
@@ -144,10 +154,10 @@ class _EmployeePageState extends State<EmployeePage> {
   // =========================
   // DIALOG UPDATE
   // =========================
-  void showEditDialog(Map<String, dynamic> employee) {
-    namakayuController.text = employee['namakayu'];
-    kategoriController.text = employee['kategori'];
-    stokController.text = employee['stok'].toString();
+  void showEditDialog(Map<String, dynamic> kayu) {
+    namakayuController.text = kayu['namakayu'];
+    kategoriController.text = kayu['kategori'];
+    stokController.text = kayu['stok'].toString();
 
     showDialog(
       context: context,
@@ -185,7 +195,7 @@ class _EmployeePageState extends State<EmployeePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                updateEmployee(employee['id']);
+                updatekayu(kayu['id']);
               },
               child: const Text("Update"),
             ),
@@ -244,7 +254,7 @@ class _EmployeePageState extends State<EmployeePage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: addEmployee,
+                onPressed: addkayu,
                 child: const Text("Tambah Data"),
               ),
             ),
@@ -257,18 +267,18 @@ class _EmployeePageState extends State<EmployeePage> {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: employeeList.length,
+              itemCount: kayuList.length,
               itemBuilder: (context, index) {
-                final employee = employeeList[index];
+                final kayu = kayuList[index];
 
                 return Card(
                   child: ListTile(
-                    title: Text(employee['namakayu']),
+                    title: Text(kayu['namakayu']),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Kategori : ${employee['kategori']}"),
-                        Text("Stok : ${employee['stok']}"),
+                        Text("Kategori : ${kayu['kategori']}"),
+                        Text("Stok : ${kayu['stok']}"),
                       ],
                     ),
                     trailing: Row(
@@ -276,13 +286,13 @@ class _EmployeePageState extends State<EmployeePage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            showEditDialog(employee);
+                            showEditDialog(kayu);
                           },
                           icon: const Icon(Icons.edit),
                         ),
                         IconButton(
                           onPressed: () {
-                            deleteEmployee(employee['id']);
+                            deletekayu(kayu['id']);
                           },
                           icon: const Icon(Icons.delete),
                         ),

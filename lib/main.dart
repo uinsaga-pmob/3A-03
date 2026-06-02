@@ -12,9 +12,9 @@ import 'package:pabrik_kayu/kehadiran.dart';
 //late List<CameraDescription> cameras;
 
 //Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //cameras = await availableCameras();
-  //runApp(const Kayu());
+//WidgetsFlutterBinding.ensureInitialized();
+//cameras = await availableCameras();
+//runApp(const Kayu());
 //}
 
 //class Kayu extends StatelessWidget {

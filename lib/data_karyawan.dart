@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/models/employee_model.dart';
+import 'package:pabrik_kayu/services/employee_service.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:path/path.dart' as path;
-import 'package:sqflite/sqflite.dart';
 
 class EmployeePage extends StatefulWidget {
   const EmployeePage({super.key});
@@ -11,19 +11,20 @@ class EmployeePage extends StatefulWidget {
 }
 
 class _EmployeePageState extends State<EmployeePage> {
-  Database? database;
-  bool isDbReady = false;
+  final EmployeeService employeeService = EmployeeService();
 
   final TextEditingController namaController = TextEditingController();
+
   final TextEditingController jabatanController = TextEditingController();
+
   final TextEditingController gajiController = TextEditingController();
 
-  List<Map<String, dynamic>> employeeList = [];
+  List<Employee> employeeList = [];
 
   @override
   void initState() {
     super.initState();
-    initDatabase();
+    loadEmployees();
   }
 
   @override
@@ -31,51 +32,11 @@ class _EmployeePageState extends State<EmployeePage> {
     namaController.dispose();
     jabatanController.dispose();
     gajiController.dispose();
-    database?.close();
     super.dispose();
   }
 
-  // =========================
-  // INIT DATABASE (FIXED)
-  // =========================
-  Future<void> initDatabase() async {
-    database = await openDatabase(
-      path.join(await getDatabasesPath(), 'pabrik_kayu_v2.db'), // 🔥 ganti nama DB biar clean
-      version: 2,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE employees(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nama TEXT,
-            jabatan TEXT,
-            gaji INTEGER
-          )
-        ''');
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        await db.execute("DROP TABLE IF EXISTS employees");
-        await db.execute('''
-          CREATE TABLE employees(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nama TEXT,
-            jabatan TEXT,
-            gaji INTEGER
-          )
-        ''');
-      },
-    );
-
-    isDbReady = true;
-    await getEmployees();
-  }
-
-  // =========================
-  // READ
-  // =========================
-  Future<void> getEmployees() async {
-    if (database == null) return;
-
-    final data = await database!.query('employees');
+  Future<void> loadEmployees() async {
+    final data = await employeeService.getAll();
 
     if (mounted) {
       setState(() {
@@ -84,104 +45,68 @@ class _EmployeePageState extends State<EmployeePage> {
     }
   }
 
-  // =========================
-  // CREATE (FIXED)
-  // =========================
   Future<void> addEmployee() async {
-    try {
-      if (database == null) {
-        debugPrint("DATABASE NULL");
-        return;
-      }
+    final nama = namaController.text.trim();
 
-      final nama = namaController.text.trim();
-      final jabatan = jabatanController.text.trim();
-      final gaji = int.tryParse(gajiController.text.trim());
+    final jabatan = jabatanController.text.trim();
 
-      if (nama.isEmpty || jabatan.isEmpty || gaji == null) {
-        debugPrint("INPUT TIDAK VALID");
-        return;
-      }
+    final gaji = int.tryParse(gajiController.text.trim());
 
-      final id = await database!.insert('employees', {
-        'nama': nama,
-        'jabatan': jabatan,
-        'gaji': gaji,
-      });
-
-      debugPrint("INSERT SUCCESS ID: $id");
-
-      clearForm();
-      await getEmployees();
-    } catch (e) {
-      debugPrint("ERROR INSERT: $e");
+    if (nama.isEmpty || jabatan.isEmpty || gaji == null) {
+      return;
     }
+
+    await employeeService.insert(
+      Employee(nama: nama, jabatan: jabatan, gaji: gaji),
+    );
+
+    clearForm();
+
+    await loadEmployees();
   }
 
-  // =========================
-  // UPDATE (FIXED)
-  // =========================
   Future<void> updateEmployee(int id) async {
-    try {
-      final nama = namaController.text.trim();
-      final jabatan = jabatanController.text.trim();
-      final gaji = int.tryParse(gajiController.text.trim());
+    final nama = namaController.text.trim();
 
-      if (nama.isEmpty || jabatan.isEmpty || gaji == null) return;
+    final jabatan = jabatanController.text.trim();
 
-      await database!.update(
-        'employees',
-        {
-          'nama': nama,
-          'jabatan': jabatan,
-          'gaji': gaji,
-        },
-        where: 'id = ?',
-        whereArgs: [id],
-      );
+    final gaji = int.tryParse(gajiController.text.trim());
 
-      clearForm();
-      await getEmployees();
+    if (nama.isEmpty || jabatan.isEmpty || gaji == null) {
+      return;
+    }
 
-      if (mounted) Navigator.pop(context);
-    } catch (e) {
-      debugPrint("ERROR UPDATE: $e");
+    await employeeService.update(
+      Employee(id: id, nama: nama, jabatan: jabatan, gaji: gaji),
+    );
+
+    clearForm();
+
+    await loadEmployees();
+
+    if (mounted) {
+      Navigator.pop(context);
     }
   }
 
-  // =========================
-  // DELETE
-  // =========================
   Future<void> deleteEmployee(int id) async {
-    try {
-      await database!.delete(
-        'employees',
-        where: 'id = ?',
-        whereArgs: [id],
-      );
+    await employeeService.delete(id);
 
-      await getEmployees();
-    } catch (e) {
-      debugPrint("ERROR DELETE: $e");
-    }
+    await loadEmployees();
   }
 
-  // =========================
-  // CLEAR FORM
-  // =========================
   void clearForm() {
     namaController.clear();
     jabatanController.clear();
     gajiController.clear();
   }
 
-  // =========================
-  // EDIT DIALOG
-  // =========================
-  void showEditDialog(Map<String, dynamic> employee) {
-    namaController.text = employee['nama']?.toString() ?? '';
-    jabatanController.text = employee['jabatan']?.toString() ?? '';
-    gajiController.text = employee['gaji']?.toString() ?? '';
+  void showEditDialog(Employee employee) {
+    namaController.text = employee.nama;
+
+    jabatanController.text = employee.jabatan;
+
+    gajiController.text = employee.gaji.toString();
 
     showDialog(
       context: context,
@@ -195,10 +120,16 @@ class _EmployeePageState extends State<EmployeePage> {
                 controller: namaController,
                 decoration: const InputDecoration(labelText: "Nama"),
               ),
+
+              const SizedBox(height: 10),
+
               TextField(
                 controller: jabatanController,
                 decoration: const InputDecoration(labelText: "Jabatan"),
               ),
+
+              const SizedBox(height: 10),
+
               TextField(
                 controller: gajiController,
                 keyboardType: TextInputType.number,
@@ -208,15 +139,14 @@ class _EmployeePageState extends State<EmployeePage> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text("Batal"),
             ),
             ElevatedButton(
               onPressed: () {
-                final id = employee['id'];
-                if (id != null) {
-                  updateEmployee(id);
-                }
+                updateEmployee(employee.id!);
               },
               child: const Text("Update"),
             ),
@@ -226,9 +156,6 @@ class _EmployeePageState extends State<EmployeePage> {
     );
   }
 
-  // =========================
-  // UI (HR CLEAN)
-  // =========================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -250,8 +177,6 @@ class _EmployeePageState extends State<EmployeePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-
-            // ================= HEADER =================
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
@@ -280,7 +205,6 @@ class _EmployeePageState extends State<EmployeePage> {
 
             const SizedBox(height: 16),
 
-            // ================= FORM =================
             TextField(
               controller: namaController,
               decoration: const InputDecoration(
@@ -288,6 +212,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 border: OutlineInputBorder(),
               ),
             ),
+
             const SizedBox(height: 10),
 
             TextField(
@@ -297,6 +222,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 border: OutlineInputBorder(),
               ),
             ),
+
             const SizedBox(height: 10),
 
             TextField(
@@ -313,9 +239,7 @@ class _EmployeePageState extends State<EmployeePage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: greenColor,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: greenColor),
                 onPressed: addEmployee,
                 child: const Text("Tambah Karyawan"),
               ),
@@ -323,39 +247,35 @@ class _EmployeePageState extends State<EmployeePage> {
 
             const SizedBox(height: 20),
 
-            // ================= LIST =================
             Expanded(
               child: ListView.builder(
                 itemCount: employeeList.length,
                 itemBuilder: (context, index) {
-                  final e = employeeList[index];
+                  final employee = employeeList[index];
 
                   return Card(
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: greenColor,
                         child: Text(
-                          (e['nama'] ?? '-')[0].toString().toUpperCase(),
+                          employee.nama.substring(0, 1).toUpperCase(),
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
-                      title: Text(e['nama']?.toString() ?? '-'),
+                      title: Text(employee.nama),
                       subtitle: Text(
-                        "${e['jabatan']} • Rp ${e['gaji']}",
+                        "${employee.jabatan} • Rp ${employee.gaji}",
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit),
-                            onPressed: () => showEditDialog(e),
+                            onPressed: () => showEditDialog(employee),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              final id = e['id'];
-                              if (id != null) deleteEmployee(id);
-                            },
+                            onPressed: () => deleteEmployee(employee.id!),
                           ),
                         ],
                       ),

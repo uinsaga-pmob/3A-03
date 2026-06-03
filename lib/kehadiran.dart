@@ -40,10 +40,12 @@ class _KehadiranState extends State<Kehadiran> {
 Future<void> getKaryawan() async {
   try {
     final db = await openDatabase(
-      path.join(await getDatabasesPath(), 'pabrik_kayu.db'),
+      path.join(await getDatabasesPath(), 'pabrik_kayu_v2.db'),
     );
 
     final data = await db.query('employees');
+
+    print(  data.toString()+"----------------------fffff----------------------------------");
 
     setState(() {
       daftarKaryawan = data
@@ -68,6 +70,8 @@ Future<void> getKaryawan() async {
 
   @override
   Widget build(BuildContext context) {
+
+    print(daftarKaryawan.toString()+"--------------------------------------------------------");
 
     return Scaffold(
       backgroundColor: cream,

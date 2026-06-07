@@ -20,8 +20,9 @@ class DatabaseHelper {
 
     return await openDatabase(
       join(dbPath, 'pabrik_kayu.db'),
-      version: 3,
+      version: 4,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -43,18 +44,21 @@ class DatabaseHelper {
         stok INTEGER NOT NULL
       )
     ''');
-
-    await db.execute('''
-      CREATE TABLE kehadiran(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nama_karyawan TEXT NOT NULL,
-      status TEXT NOT NULL,
-      tanggal TEXT NOT NULL,
-      jam_masuk TEXT NOT NULL
-    )
-    ''');
   }
 
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 4) {
+      await db.execute('''
+      CREATE TABLE IF NOT EXISTS kehadiran(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        employee_id INTEGER NOT NULL,
+        status TEXT NOT NULL,
+        tanggal TEXT NOT NULL,
+        jam_masuk TEXT NOT NULL
+      )
+    ''');
+    }
+  }
   // ======================
   // CREATE
   // ======================

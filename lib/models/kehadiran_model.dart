@@ -1,13 +1,13 @@
 class KehadiranModel {
   int? id;
-  String namaKaryawan;
+  int employeeId;
   String status;
   String tanggal;
   String jamMasuk;
 
   KehadiranModel({
     this.id,
-    required this.namaKaryawan,
+    required this.employeeId,
     required this.status,
     required this.tanggal,
     required this.jamMasuk,
@@ -15,11 +15,20 @@ class KehadiranModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'nama_karyawan': namaKaryawan,
+      'employee_id': employeeId,
       'status': status,
       'tanggal': tanggal,
       'jam_masuk': jamMasuk,
     };
+  }
+
+  factory KehadiranModel.fromMap(Map<String, dynamic> map) {
+    return KehadiranModel(
+      id: map['id'],
+      employeeId: map['employee_id'],
+      status: map['status'],
+      tanggal: map['tanggal'],
+      jamMasuk: map['jam_masuk'],
+    );
   }
 }

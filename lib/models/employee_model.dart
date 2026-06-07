@@ -1,10 +1,10 @@
-class Employee {
+class EmployeeModel {
   int? id;
   String nama;
   String jabatan;
   int gaji;
 
-  Employee({
+  EmployeeModel({
     this.id,
     required this.nama,
     required this.jabatan,
@@ -15,8 +15,8 @@ class Employee {
     return {'id': id, 'nama': nama, 'jabatan': jabatan, 'gaji': gaji};
   }
 
-  factory Employee.fromMap(Map<String, dynamic> map) {
-    return Employee(
+  factory EmployeeModel.fromMap(Map<String, dynamic> map) {
+    return EmployeeModel(
       id: map['id'],
       nama: map['nama'],
       jabatan: map['jabatan'],

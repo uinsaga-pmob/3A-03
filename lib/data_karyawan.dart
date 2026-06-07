@@ -19,7 +19,7 @@ class _EmployeePageState extends State<EmployeePage> {
 
   final TextEditingController gajiController = TextEditingController();
 
-  List<Employee> employeeList = [];
+  List<EmployeeModel> employeeList = [];
 
   @override
   void initState() {
@@ -56,8 +56,8 @@ class _EmployeePageState extends State<EmployeePage> {
       return;
     }
 
-    await employeeService.insert(
-      Employee(nama: nama, jabatan: jabatan, gaji: gaji),
+    await employeeService.save(
+      EmployeeModel(nama: nama, jabatan: jabatan, gaji: gaji),
     );
 
     clearForm();
@@ -77,7 +77,7 @@ class _EmployeePageState extends State<EmployeePage> {
     }
 
     await employeeService.update(
-      Employee(id: id, nama: nama, jabatan: jabatan, gaji: gaji),
+      EmployeeModel(id: id, nama: nama, jabatan: jabatan, gaji: gaji),
     );
 
     clearForm();
@@ -101,7 +101,7 @@ class _EmployeePageState extends State<EmployeePage> {
     gajiController.clear();
   }
 
-  void showEditDialog(Employee employee) {
+  void showEditDialog(EmployeeModel employee) {
     namaController.text = employee.nama;
 
     jabatanController.text = employee.jabatan;

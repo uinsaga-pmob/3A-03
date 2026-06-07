@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:path/path.dart' as path;
-import 'package:sqflite/sqflite.dart';
+import 'package:pabrik_kayu/services/kehadiran_service.dart';
+import 'package:pabrik_kayu/models/kehadiran_model.dart';
 
 class Kehadiran extends StatefulWidget {
   const Kehadiran({super.key});
@@ -11,78 +11,79 @@ class Kehadiran extends StatefulWidget {
 }
 
 class _KehadiranState extends State<Kehadiran> {
-
   String? selectedKaryawan;
   String? selectedStatus;
 
   List<String> daftarKaryawan = [];
 
-  final List<String> statusList = [
-    "Hadir",
-    "Izin",
-    "Sakit",
-    "Alpha"
-  ];
+  final kehadiranService = KehadiranService();
+  final List<String> statusList = ["Hadir", "Izin", "Sakit", "Alpha"];
 
-  String tanggal =
-      DateTime.now().toString().substring(0,10);
+  String tanggal = DateTime.now().toString().substring(0, 10);
 
-  String jam =
-    "${DateTime.now().hour}:${DateTime.now().minute}";
+  String jam = "${DateTime.now().hour}:${DateTime.now().minute}";
 
   @override
   void initState() {
     super.initState();
 
     getKaryawan();
-}
+  }
 
-Future<void> getKaryawan() async {
-  try {
-    final db = await openDatabase(
-      path.join(await getDatabasesPath(), 'pabrik_kayu_v2.db'),
-    );
-
-    final data = await db.query('employees');
-
-    print(  data.toString()+"----------------------fffff----------------------------------");
+  Future<void> getKaryawan() async {
+    final data = await KehadiranService.getAll();
 
     setState(() {
-      daftarKaryawan = data
-          .map((item) => item['nama'].toString())
-          .toList();
+      daftarKaryawan = List<String>.from(data);
     });
-
-  } catch (e) {
-    print("e");
   }
-}
-  void simpanAbsensi() {
+
+  Future<void> simpanAbsensi() async {
+    if (selectedKaryawan == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Pilih karyawan terlebih dahulu")),
+      );
+      return;
+    }
+
+    if (selectedStatus == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Pilih status kehadiran")));
+      return;
+    }
+
+    final kehadiran = KehadiranModel(
+      namaKaryawan: selectedKaryawan!,
+      status: selectedStatus!,
+      tanggal: tanggal,
+      jamMasuk: jam,
+    );
+
+    await kehadiranService.save(kehadiran);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          "$selectedKaryawan berhasil absen",
-        ),
-      ),
+      SnackBar(content: Text("$selectedKaryawan berhasil disimpan")),
     );
+
+    setState(() {
+      selectedKaryawan = null;
+      selectedStatus = null;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    print(daftarKaryawan.toString()+"--------------------------------------------------------");
+    print(
+      daftarKaryawan.toString() +
+          "--------------------------------------------------------",
+    );
 
     return Scaffold(
       backgroundColor: cream,
 
       appBar: AppBar(
-        title: Text(
-          "Absensi",
-          style: TextStyle(
-            color: greenColor,
-          ),
-        ),
+        title: Text("Absensi", style: TextStyle(color: greenColor)),
         centerTitle: true,
       ),
 
@@ -91,7 +92,6 @@ Future<void> getKaryawan() async {
 
         child: Column(
           children: [
-
             DropdownButtonFormField<String>(
               initialValue: selectedKaryawan,
               decoration: const InputDecoration(
@@ -99,10 +99,7 @@ Future<void> getKaryawan() async {
                 border: OutlineInputBorder(),
               ),
               items: daftarKaryawan.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
+                return DropdownMenuItem<String>(value: item, child: Text(item));
               }).toList(),
               onChanged: (value) {
                 setState(() {
@@ -119,30 +116,21 @@ Future<void> getKaryawan() async {
                 labelText: "Status",
                 border: OutlineInputBorder(),
               ),
-              items: statusList.map((item){
-                return DropdownMenuItem(
-                  value: item,
-                  child: Text(item),
-                );
+              items: statusList.map((item) {
+                return DropdownMenuItem(value: item, child: Text(item));
               }).toList(),
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
-                  selectedStatus=value;
+                  selectedStatus = value;
                 });
               },
             ),
 
             const SizedBox(height: 15),
 
-            ListTile(
-              title: Text("Tanggal"),
-              subtitle: Text(tanggal),
-            ),
+            ListTile(title: Text("Tanggal"), subtitle: Text(tanggal)),
 
-            ListTile(
-              title: Text("Jam Masuk"),
-              subtitle: Text(jam),
-            ),
+            ListTile(title: Text("Jam Masuk"), subtitle: Text(jam)),
 
             const SizedBox(height: 20),
 
@@ -150,12 +138,9 @@ Future<void> getKaryawan() async {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: simpanAbsensi,
-                child: const Text(
-                  "Absen"
-                ),
+                child: const Text("Absen"),
               ),
-            )
-
+            ),
           ],
         ),
       ),

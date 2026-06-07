@@ -18,30 +18,136 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
 
-    return openDatabase(
+    return await openDatabase(
       join(dbPath, 'pabrik_kayu.db'),
-      version: 1,
-      onCreate: (db, version) async {
-        // TABEL KARYAWAN
-        await db.execute('''
-          CREATE TABLE employees(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nama TEXT,
-            jabatan TEXT,
-            gaji INTEGER
-          )
-        ''');
-
-        // TABEL KAYU
-        await db.execute('''
-          CREATE TABLE woods(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            namakayu TEXT,
-            kategori TEXT,
-            stok INTEGER
-          )
-        ''');
-      },
+      version: 3,
+      onCreate: _onCreate,
     );
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE employees(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nama TEXT NOT NULL,
+        jabatan TEXT NOT NULL,
+        gaji INTEGER NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE woods(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        namakayu TEXT NOT NULL,
+        kategori TEXT NOT NULL,
+        stok INTEGER NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE kehadiran(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nama_karyawan TEXT NOT NULL,
+      status TEXT NOT NULL,
+      tanggal TEXT NOT NULL,
+      jam_masuk TEXT NOT NULL
+    )
+    ''');
+  }
+
+  // ======================
+  // CREATE
+  // ======================
+
+  Future<int> insert(String table, Map<String, dynamic> data) async {
+    final db = await database;
+
+    return await db.insert(
+      table,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // ======================
+  // READ ALL
+  // ======================
+
+  Future<List<Map<String, dynamic>>> getAll(String table) async {
+    final db = await database;
+
+    return await db.query(table);
+  }
+
+  // ======================
+  // READ BY ID
+  // ======================
+
+  Future<Map<String, dynamic>?> getById(String table, int id) async {
+    final db = await database;
+
+    final result = await db.query(
+      table,
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return result.first;
+    }
+
+    return null;
+  }
+
+  // ======================
+  // UPDATE
+  // ======================
+
+  Future<int> update(String table, int id, Map<String, dynamic> data) async {
+    final db = await database;
+
+    return await db.update(table, data, where: 'id = ?', whereArgs: [id]);
+  }
+
+  // ======================
+  // DELETE
+  // ======================
+
+  Future<int> delete(String table, int id) async {
+    final db = await database;
+
+    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
+  }
+
+  // ======================
+  // CUSTOM QUERY
+  // ======================
+
+  Future<List<Map<String, dynamic>>> rawQuery(
+    String sql, [
+    List<dynamic>? arguments,
+  ]) async {
+    final db = await database;
+
+    return await db.rawQuery(sql, arguments);
+  }
+
+  Future<int> rawInsert(String sql, [List<dynamic>? arguments]) async {
+    final db = await database;
+
+    return await db.rawInsert(sql, arguments);
+  }
+
+  Future<int> rawUpdate(String sql, [List<dynamic>? arguments]) async {
+    final db = await database;
+
+    return await db.rawUpdate(sql, arguments);
+  }
+
+  Future<int> rawDelete(String sql, [List<dynamic>? arguments]) async {
+    final db = await database;
+
+    return await db.rawDelete(sql, arguments);
   }
 }

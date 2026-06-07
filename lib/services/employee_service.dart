@@ -1,36 +1,37 @@
-import '../helpers/database_helper.dart';
-import '../models/employee_model.dart';
+import 'package:pabrik_kayu/helpers/database_helper.dart';
+import 'package:pabrik_kayu/models/employee_model.dart';
 
 class EmployeeService {
-  final dbHelper = DatabaseHelper.instance;
+  final db = DatabaseHelper.instance;
 
-  Future<int> insert(Employee employee) async {
-    final db = await dbHelper.database;
-    return db.insert('employees', employee.toMap());
+  // CREATE
+  Future<int> save(EmployeeModel employee) async {
+    return await db.insert('employees', employee.toMap());
   }
 
-  Future<List<Employee>> getAll() async {
-    final db = await dbHelper.database;
+  // READ ALL
+  Future<List<EmployeeModel>> getAll() async {
+    final result = await db.getAll('employees');
 
-    final result = await db.query('employees');
-
-    return result.map((e) => Employee.fromMap(e)).toList();
+    return result.map((e) => EmployeeModel.fromMap(e)).toList();
   }
 
-  Future<int> update(Employee employee) async {
-    final db = await dbHelper.database;
+  // READ BY ID
+  Future<EmployeeModel?> getById(int id) async {
+    final result = await db.getById('employees', id);
 
-    return db.update(
-      'employees',
-      employee.toMap(),
-      where: 'id=?',
-      whereArgs: [employee.id],
-    );
+    if (result == null) return null;
+
+    return EmployeeModel.fromMap(result);
   }
 
+  // UPDATE
+  Future<int> update(EmployeeModel employee) async {
+    return await db.update('employees', employee.id!, employee.toMap());
+  }
+
+  // DELETE
   Future<int> delete(int id) async {
-    final db = await dbHelper.database;
-
-    return db.delete('employees', where: 'id=?', whereArgs: [id]);
+    return await db.delete('employees', id);
   }
 }

@@ -1,214 +1,160 @@
-import '../models/wood_model.dart';
-import '../services/wood_service.dart';
+import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/models/wood_model.dart';
+import 'package:pabrik_kayu/services/wood_service.dart';
+import 'package:pabrik_kayu/style.dart';
 
-final WoodService woodService = WoodService();
-
-<<<<<<< HEAD
-List<Wood> woodList = [];
-
-int totalStock = 0;
-
-// Load data from service and update local variables
-Future<void> loadData() async {
-  final data = await woodService.getAll();
-  final stock = await woodService.totalStock();
-  woodList = data;
-  totalStock = stock;
-}
-
-// Add a new wood entry using provided values
-Future<void> addWood({
-  required String namaKayu,
-  required String kategori,
-  required int stok,
-}) async {
-  await woodService.insert(
-    Wood(namaKayu: namaKayu, kategori: kategori, stok: stok),
-  );
-  await loadData();
-=======
-class KayuPage extends StatefulWidget {
-  const KayuPage({super.key});
+class DataKayu extends StatefulWidget {
+  const DataKayu({super.key});
 
   @override
-  State<KayuPage> createState() => _KayuPageState();
+  State<DataKayu> createState() => _DataKayuState();
 }
 
-class _KayuPageState extends State<KayuPage> {
-  Database? database;
+class _DataKayuState extends State<DataKayu> {
+  final WoodService woodService = WoodService();
 
   final TextEditingController namakayuController = TextEditingController();
+
   final TextEditingController kategoriController = TextEditingController();
+
   final TextEditingController stokController = TextEditingController();
 
-  List<Map<String, dynamic>> kayuList = [];
+  List<Wood> woodList = [];
 
   @override
   void initState() {
     super.initState();
-    initDatabase();
+    loadData();
   }
 
-  // =========================
-  // DISPOSE
-  // =========================
   @override
   void dispose() {
     namakayuController.dispose();
     kategoriController.dispose();
     stokController.dispose();
-    database?.close();
     super.dispose();
   }
 
-  // =========================
-  // INIT DATABASE
-  // =========================
- Future<void> initDatabase() async {
-  database = await openDatabase(
-    path.join(await getDatabasesPath(), 'pabrik_kayu.db'),
-    version: 2,
-    onCreate: (db, version) async {
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS kayu(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          namakayu TEXT,
-          kategori TEXT,
-          stok INTEGER
-        )
-      ''');
-    },
-    onUpgrade: (db, oldVersion, newVersion) async {
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS kayu(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          namakayu TEXT,
-          kategori TEXT,
-          stok INTEGER
-        )
-      ''');
-    },
-  );
+  Future<void> loadData() async {
+    final data = await woodService.getAll();
 
-  await getkayu();
-}
+    if (!mounted) return;
 
-  // =========================
-  // CREATE
-  // =========================
-  Future<void> addkayu() async {
-    if (database == null) return;
+    setState(() {
+      woodList = data;
+    });
+  }
 
-    if (namakayuController.text.isEmpty ||
-        kategoriController.text.isEmpty ||
-        stokController.text.isEmpty) {
+  Future<void> addWood() async {
+    final namaKayu = namakayuController.text.trim();
+
+    final kategori = kategoriController.text.trim();
+
+    final stok = int.tryParse(stokController.text.trim());
+
+    if (namaKayu.isEmpty || kategori.isEmpty || stok == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Semua field wajib diisi dan stok harus berupa angka"),
+        ),
+      );
       return;
     }
 
-    await database!.insert('kayu', {
-      'namakayu': namakayuController.text,
-      'kategori': kategoriController.text,
-      'stok': int.parse(stokController.text),
-    });
-
-    clearForm();
-    await getkayu();
-  }
-
-  // =========================
-  // READ
-  // =========================
-  Future<void> getkayu() async {
-    if (database == null) return;
-
-    final data = await database!.query('kayu');
-
-    if (mounted) {
-      setState(() {
-        kayuList = data;
-      });
-    }
-  }
-
-  // =========================
-  // UPDATE
-  // =========================
-  Future<void> updatekayu(int id) async {
-    if (database == null) return;
-
-    await database!.update(
-      'kayu',
-      {
-        'namakayu': namakayuController.text,
-        'kategori': kategoriController.text,
-        'stok': int.parse(stokController.text),
-      },
-      where: 'id = ?',
-      whereArgs: [id],
+    await woodService.insert(
+      Wood(namaKayu: namaKayu, kategori: kategori, stok: stok),
     );
 
     clearForm();
-    await getkayu();
+
+    await loadData();
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Data berhasil ditambahkan")));
+  }
+
+  Future<void> updateWood(int id) async {
+    final namaKayu = namakayuController.text.trim();
+
+    final kategori = kategoriController.text.trim();
+
+    final stok = int.tryParse(stokController.text.trim());
+
+    if (namaKayu.isEmpty || kategori.isEmpty || stok == null) {
+      return;
+    }
+
+    await woodService.update(
+      Wood(id: id, namaKayu: namaKayu, kategori: kategori, stok: stok),
+    );
+
+    clearForm();
+
+    await loadData();
 
     if (mounted) {
       Navigator.pop(context);
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Data berhasil diupdate")));
     }
   }
 
-  // =========================
-  // DELETE
-  // =========================
-  Future<void> deletekayu(int id) async {
-    if (database == null) return;
+  Future<void> deleteWood(int id) async {
+    await woodService.delete(id);
 
-    await database!.delete('kayu', where: 'id = ?', whereArgs: [id]);
+    await loadData();
 
-    await getkayu();
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Data berhasil dihapus")));
   }
 
-  // =========================
-  // CLEAR FORM
-  // =========================
   void clearForm() {
     namakayuController.clear();
     kategoriController.clear();
     stokController.clear();
   }
 
-  // =========================
-  // DIALOG UPDATE
-  // =========================
-  void showEditDialog(Map<String, dynamic> kayu) {
-    namakayuController.text = kayu['namakayu'];
-    kategoriController.text = kayu['kategori'];
-    stokController.text = kayu['stok'].toString();
+  void showEditDialog(Wood wood) {
+    namakayuController.text = wood.namaKayu;
+
+    kategoriController.text = wood.kategori;
+
+    stokController.text = wood.stok.toString();
 
     showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: const Text("Edit Kayu"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: namakayuController,
-                decoration: const InputDecoration(labelText: "Nama"),
-              ),
-              const SizedBox(height: 10),
-
-              TextField(
-                controller: kategoriController,
-                decoration: const InputDecoration(labelText: "Kategori"),
-              ),
-              const SizedBox(height: 10),
-
-              TextField(
-                controller: stokController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: "Stok"),
-              ),
-            ],
+          title: const Text("Edit Data Kayu"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: namakayuController,
+                  decoration: const InputDecoration(labelText: "Nama Kayu"),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: kategoriController,
+                  decoration: const InputDecoration(labelText: "Kategori"),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: stokController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: "Stok"),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -219,9 +165,37 @@ class _KayuPageState extends State<KayuPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                updatekayu(kayu['id']);
+                updateWood(wood.id!);
               },
               child: const Text("Update"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showDeleteDialog(Wood wood) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text("Hapus Data"),
+          content: Text("Yakin ingin menghapus ${wood.namaKayu} ?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Batal"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+
+                await deleteWood(wood.id!);
+              },
+              child: const Text("Hapus"),
             ),
           ],
         );
@@ -232,18 +206,46 @@ class _KayuPageState extends State<KayuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F6FA),
+
       appBar: AppBar(
         title: const Text("Data Kayu Pabrik Kayu"),
         centerTitle: true,
+        backgroundColor: greenColor,
       ),
 
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // =========================
-            // FORM INPUT
-            // =========================
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: greenColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Total Jenis Kayu",
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  Text(
+                    "${woodList.length}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
             TextField(
               controller: namakayuController,
               decoration: const InputDecoration(
@@ -278,80 +280,62 @@ class _KayuPageState extends State<KayuPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: addkayu,
-                child: const Text("Tambah Data"),
+                style: ElevatedButton.styleFrom(backgroundColor: greenColor),
+                onPressed: addWood,
+                child: const Text("Tambah Data Kayu"),
               ),
             ),
 
             const SizedBox(height: 20),
 
-            // =========================
-            // LIST DATA
-            // =========================
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: kayuList.length,
-              itemBuilder: (context, index) {
-                final kayu = kayuList[index];
+            Expanded(
+              child: ListView.builder(
+                itemCount: woodList.length,
+                itemBuilder: (context, index) {
+                  final wood = woodList[index];
 
-                return Card(
-                  child: ListTile(
-                    title: Text(kayu['namakayu']),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Kategori : ${kayu['kategori']}"),
-                        Text("Stok : ${kayu['stok']}"),
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            showEditDialog(kayu);
-                          },
-                          icon: const Icon(Icons.edit),
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: greenColor,
+                        child: Text(
+                          wood.namaKayu.substring(0, 1).toUpperCase(),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            deletekayu(kayu['id']);
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
+                      ),
+                      title: Text(wood.namaKayu),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Kategori : ${wood.kategori}"),
+                          Text("Stok : ${wood.stok}"),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              showEditDialog(wood);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              showDeleteDialog(wood);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
->>>>>>> 856b594243f3a1b17c9bf89df0fa8f5dfc02a872
 }
-
-// Update existing wood by id
-Future<void> updateWood(
-  int id, {
-  required String namaKayu,
-  required String kategori,
-  required int stok,
-}) async {
-  await woodService.update(
-    Wood(id: id, namaKayu: namaKayu, kategori: kategori, stok: stok),
-  );
-  await loadData();
-}
-
-// Delete wood by id
-Future<void> deleteWood(int id) async {
-  await woodService.delete(id);
-  await loadData();
-}
-
-// Helper getter for item count
-int get itemCount => woodList.length;

@@ -14,12 +14,11 @@ class _DataKayuState extends State<DataKayu> {
   final WoodService woodService = WoodService();
 
   final TextEditingController namakayuController = TextEditingController();
-
   final TextEditingController kategoriController = TextEditingController();
-
   final TextEditingController stokController = TextEditingController();
 
   List<Wood> woodList = [];
+  int totalStok = 0; // 1. Tambahkan variabel penampung total stok fisik
 
   @override
   void initState() {
@@ -37,19 +36,20 @@ class _DataKayuState extends State<DataKayu> {
 
   Future<void> loadData() async {
     final data = await woodService.getAll();
+    final stock = await woodService
+        .totalStock(); // 2. Ambil nilai agregat SUM(stok)
 
     if (!mounted) return;
 
     setState(() {
       woodList = data;
+      totalStok = stock; // 3. Masukkan data ke variabel state
     });
   }
 
   Future<void> addWood() async {
     final namaKayu = namakayuController.text.trim();
-
     final kategori = kategoriController.text.trim();
-
     final stok = int.tryParse(stokController.text.trim());
 
     if (namaKayu.isEmpty || kategori.isEmpty || stok == null) {
@@ -66,7 +66,6 @@ class _DataKayuState extends State<DataKayu> {
     );
 
     clearForm();
-
     await loadData();
 
     if (!mounted) return;
@@ -78,9 +77,7 @@ class _DataKayuState extends State<DataKayu> {
 
   Future<void> updateWood(int id) async {
     final namaKayu = namakayuController.text.trim();
-
     final kategori = kategoriController.text.trim();
-
     final stok = int.tryParse(stokController.text.trim());
 
     if (namaKayu.isEmpty || kategori.isEmpty || stok == null) {
@@ -92,12 +89,10 @@ class _DataKayuState extends State<DataKayu> {
     );
 
     clearForm();
-
     await loadData();
 
     if (mounted) {
       Navigator.pop(context);
-
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Data berhasil diupdate")));
@@ -106,7 +101,6 @@ class _DataKayuState extends State<DataKayu> {
 
   Future<void> deleteWood(int id) async {
     await woodService.delete(id);
-
     await loadData();
 
     if (!mounted) return;
@@ -124,9 +118,7 @@ class _DataKayuState extends State<DataKayu> {
 
   void showEditDialog(Wood wood) {
     namakayuController.text = wood.namaKayu;
-
     kategoriController.text = wood.kategori;
-
     stokController.text = wood.stok.toString();
 
     showDialog(
@@ -160,6 +152,7 @@ class _DataKayuState extends State<DataKayu> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                clearForm(); // Bersihkan form saat batal agar tidak membekas
               },
               child: const Text("Batal"),
             ),
@@ -172,7 +165,9 @@ class _DataKayuState extends State<DataKayu> {
           ],
         );
       },
-    );
+    ).then(
+      (_) => clearForm(),
+    ); // Proteksi tambahan pembersihan form saat dialog ditutup bebas
   }
 
   void showDeleteDialog(Wood wood) {
@@ -192,7 +187,6 @@ class _DataKayuState extends State<DataKayu> {
             ElevatedButton(
               onPressed: () async {
                 Navigator.pop(context);
-
                 await deleteWood(wood.id!);
               },
               child: const Text("Hapus"),
@@ -207,45 +201,74 @@ class _DataKayuState extends State<DataKayu> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FA),
-
       appBar: AppBar(
         title: const Text("Data Kayu Pabrik Kayu"),
         centerTitle: true,
         backgroundColor: greenColor,
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: greenColor,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Total Jenis Kayu",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  Text(
-                    "${woodList.length}",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+            // Row Info Atas (Total Jenis & Total Stok)
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: greenColor,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Total Jenis",
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        Text(
+                          "${woodList.length}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: greenColor.withOpacity(0.85),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Total Stok Fisik",
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        Text(
+                          "$totalStok", // 4. Menampilkan jumlah total stok dari SQLite
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-
             const SizedBox(height: 16),
-
             TextField(
               controller: namakayuController,
               decoration: const InputDecoration(
@@ -253,9 +276,7 @@ class _DataKayuState extends State<DataKayu> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 12),
-
             TextField(
               controller: kategoriController,
               decoration: const InputDecoration(
@@ -263,9 +284,7 @@ class _DataKayuState extends State<DataKayu> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 12),
-
             TextField(
               controller: stokController,
               keyboardType: TextInputType.number,
@@ -274,9 +293,7 @@ class _DataKayuState extends State<DataKayu> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 16),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -285,53 +302,58 @@ class _DataKayuState extends State<DataKayu> {
                 child: const Text("Tambah Data Kayu"),
               ),
             ),
-
             const SizedBox(height: 20),
-
             Expanded(
-              child: ListView.builder(
-                itemCount: woodList.length,
-                itemBuilder: (context, index) {
-                  final wood = woodList[index];
-
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: greenColor,
-                        child: Text(
-                          wood.namaKayu.substring(0, 1).toUpperCase(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      title: Text(wood.namaKayu),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Kategori : ${wood.kategori}"),
-                          Text("Stok : ${wood.stok}"),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              showEditDialog(wood);
-                            },
+              child: woodList.isEmpty
+                  ? const Center(child: Text("Belum ada laporan data kayu."))
+                  : ListView.builder(
+                      itemCount: woodList.length,
+                      itemBuilder: (context, index) {
+                        final wood = woodList[index];
+                        return Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: greenColor,
+                              child: Text(
+                                wood.namaKayu.isNotEmpty
+                                    ? wood.namaKayu
+                                          .substring(0, 1)
+                                          .toUpperCase()
+                                    : "?",
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            title: Text(wood.namaKayu),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Kategori : ${wood.kategori}"),
+                                Text("Stok : ${wood.stok}"),
+                              ],
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.orange,
+                                  ),
+                                  onPressed: () => showEditDialog(wood),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () => showDeleteDialog(wood),
+                                ),
+                              ],
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              showDeleteDialog(wood);
-                            },
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),

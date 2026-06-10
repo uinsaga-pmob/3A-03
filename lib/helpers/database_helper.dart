@@ -20,7 +20,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       join(dbPath, 'pabrik_kayu.db'),
-      version: 4,
+      version: 10,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );

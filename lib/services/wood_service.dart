@@ -7,21 +7,15 @@ class WoodService {
   Future<int> insert(Wood wood) async {
     final db = await dbHelper.database;
 
-    return db.insert(
-      'woods',
-      wood.toMap(),
-    );
+    return db.insert('woods', wood.toMap());
   }
 
   Future<List<Wood>> getAll() async {
     final db = await dbHelper.database;
 
-    final result =
-        await db.query('woods');
+    final result = await db.query('woods');
 
-    return result
-        .map((e) => Wood.fromMap(e))
-        .toList();
+    return result.map((e) => Wood.fromMap(e)).toList();
   }
 
   Future<int> update(Wood wood) async {
@@ -38,22 +32,24 @@ class WoodService {
   Future<int> delete(int id) async {
     final db = await dbHelper.database;
 
-    return db.delete(
-      'woods',
-      where: 'id=?',
-      whereArgs: [id],
-    );
+    return db.delete('woods', where: 'id=?', whereArgs: [id]);
   }
 
   Future<int> totalStock() async {
     final db = await dbHelper.database;
 
-    final result = await db.rawQuery(
-      'SELECT SUM(stok) as total FROM woods',
-    );
+    try {
+      final result = await db.rawQuery('SELECT SUM(stok) as total FROM woods');
 
-    return result.first['total'] == null
-        ? 0
-        : result.first['total'] as int;
+      // Cek apakah hasilnya ada dan tidak null
+      if (result.isNotEmpty && result.first['total'] != null) {
+        // Ubah secara eksplisit menjadi int
+        return (result.first['total'] as num).toInt();
+      }
+      return 0; // Kembalikan 0 jika tabel kosong
+    } catch (e) {
+      print("Error di totalStock: $e");
+      return 0; // Kembalikan 0 jika terjadi error database
+    }
   }
 }

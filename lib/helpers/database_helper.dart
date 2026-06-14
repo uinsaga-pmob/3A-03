@@ -44,20 +44,54 @@ class DatabaseHelper {
         stok INTEGER NOT NULL
       )
     ''');
+    await db.execute('''
+    CREATE TABLE laporan(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      jenis_produk TEXT NOT NULL,
+      foto TEXT,
+      file_path TEXT,
+      tanggal TEXT NOT NULL
+    )
+    ''');
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 4) {
-      await db.execute('''
-      CREATE TABLE IF NOT EXISTS kehadiran(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        employee_id INTEGER NOT NULL,
-        status TEXT NOT NULL,
-        tanggal TEXT NOT NULL,
-        jam_masuk TEXT NOT NULL
-      )
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS employees(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nama TEXT NOT NULL,
+      jabatan TEXT NOT NULL,
+      gaji INTEGER NOT NULL
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS woods(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      namakayu TEXT NOT NULL,
+      kategori TEXT NOT NULL,
+      stok INTEGER NOT NULL
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS kehadiran(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      employee_id INTEGER NOT NULL,
+      status TEXT NOT NULL,
+      tanggal TEXT NOT NULL,
+      jam_masuk TEXT NOT NULL
+    )
+  ''');
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS laporan(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      jenis_produk TEXT NOT NULL,
+      foto TEXT,
+      file_path TEXT,
+      tanggal TEXT NOT NULL
+    )
     ''');
-    }
   }
   // ======================
   // CREATE

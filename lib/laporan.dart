@@ -3,8 +3,14 @@ import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/tambah_laporan.dart';
 
-class Laporan extends StatelessWidget {
+class Laporan extends StatefulWidget {
   const Laporan({super.key});
+
+  @override
+  State<Laporan> createState() => _LaporanState();
+}
+
+class _LaporanState extends State<Laporan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

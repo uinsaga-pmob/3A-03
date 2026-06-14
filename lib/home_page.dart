@@ -151,7 +151,8 @@ class _homepagestate extends State<HomePage> {
                         MaterialPageRoute(builder: (context) => Gaji()),
                       ),
                       child: Containerhome(
-                        title: "Gaji",
+                        title:
+                            "Gaji", // menampilakn gaji dari database employee
                         subtitle: "Manajemen Pembayaran Gaji ",
                       ),
                     ),

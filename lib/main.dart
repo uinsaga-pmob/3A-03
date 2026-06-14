@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 //import 'package:pabrik_kayu/welcome_screen.dart';
 //import 'package:camera/camera.dart';
 // import 'package:pabrik_kayu/data_karyawan.dart';
-import 'package:pabrik_kayu/data_kayu.dart';
+
+import 'package:pabrik_kayu/welcome_screen.dart';
 // import 'package:pabrik_kayu/data_kayu.dart';
 //import 'package:pabrik_kayu/kehadiran.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pabrik Kayu',
-      home: DataKayu(),
+      home: WelcomeScreen(),
     );
   }
 }

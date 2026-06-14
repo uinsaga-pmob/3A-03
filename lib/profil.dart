@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/data_karyawan.dart';
 import 'package:pabrik_kayu/data_pribadi.dart';
 import 'package:pabrik_kayu/kehadiran.dart';
 import 'package:pabrik_kayu/kinerja.dart';
@@ -56,7 +57,7 @@ class Profil extends StatelessWidget {
             InkWell(
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DataPribadi()),
+                MaterialPageRoute(builder: (context) => EmployeePage()),
               ),
               child: Containerpropil(
                 title: "Data Pribadi",

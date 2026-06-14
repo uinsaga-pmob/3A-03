@@ -5,14 +5,8 @@ import 'package:flutter/material.dart';
 //import 'package:pabrik_kayu/welcome_screen.dart';
 //import 'package:camera/camera.dart';
 // import 'package:pabrik_kayu/data_karyawan.dart';
+import 'package:pabrik_kayu/data_kayu.dart';
 // import 'package:pabrik_kayu/data_kayu.dart';
-// import 'package:pabrik_kayu/home_page.dart';
-import 'package:pabrik_kayu/welcome_screen.dart';
-// import 'package:pabrik_kayu/data_kayu.dart';
-//import 'package:pabrik_kayu/kehadiran.dart';
-//import 'package:pabrik_kayu/data_kayu.dart';
-//import 'package:pabrik_kayu/kehadiran.dart';
-//import 'package:sqflite/sqflite.dart';
 //import 'package:pabrik_kayu/kehadiran.dart';
 
 //late List<CameraDescription> cameras;
@@ -33,10 +27,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pabrik Kayu',
-      home: (WelcomeScreen()),
+      home: DataKayu(),
     );
   }
 }

@@ -27,6 +27,9 @@ class EmployeeService {
 
   // UPDATE
   Future<int> update(EmployeeModel employee) async {
+    // Pengaman: Jika id null, langsung kembalikan 0 (gagal update) tanpa bikin aplikasi crash
+    if (employee.id == null) return 0;
+
     return await db.update('employees', employee.id!, employee.toMap());
   }
 

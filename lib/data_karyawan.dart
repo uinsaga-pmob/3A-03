@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/models/employee_model.dart';
 import 'package:pabrik_kayu/services/employee_service.dart';
 import 'package:pabrik_kayu/style.dart';
+import 'package:pabrik_kayu/gaji.dart'; // IMPORT HALAMAN GAJI DI SINI
 
 class EmployeePage extends StatefulWidget {
   const EmployeePage({super.key});
@@ -14,9 +15,7 @@ class _EmployeePageState extends State<EmployeePage> {
   final EmployeeService employeeService = EmployeeService();
 
   final TextEditingController namaController = TextEditingController();
-
   final TextEditingController jabatanController = TextEditingController();
-
   final TextEditingController gajiController = TextEditingController();
 
   List<EmployeeModel> employeeList = [];
@@ -47,9 +46,7 @@ class _EmployeePageState extends State<EmployeePage> {
 
   Future<void> addEmployee() async {
     final nama = namaController.text.trim();
-
     final jabatan = jabatanController.text.trim();
-
     final gaji = int.tryParse(gajiController.text.trim());
 
     if (nama.isEmpty || jabatan.isEmpty || gaji == null) {
@@ -61,15 +58,12 @@ class _EmployeePageState extends State<EmployeePage> {
     );
 
     clearForm();
-
     await loadEmployees();
   }
 
   Future<void> updateEmployee(int id) async {
     final nama = namaController.text.trim();
-
     final jabatan = jabatanController.text.trim();
-
     final gaji = int.tryParse(gajiController.text.trim());
 
     if (nama.isEmpty || jabatan.isEmpty || gaji == null) {
@@ -81,7 +75,6 @@ class _EmployeePageState extends State<EmployeePage> {
     );
 
     clearForm();
-
     await loadEmployees();
 
     if (mounted) {
@@ -91,7 +84,6 @@ class _EmployeePageState extends State<EmployeePage> {
 
   Future<void> deleteEmployee(int id) async {
     await employeeService.delete(id);
-
     await loadEmployees();
   }
 
@@ -103,9 +95,7 @@ class _EmployeePageState extends State<EmployeePage> {
 
   void showEditDialog(EmployeeModel employee) {
     namaController.text = employee.nama;
-
     jabatanController.text = employee.jabatan;
-
     gajiController.text = employee.gaji.toString();
 
     showDialog(
@@ -120,16 +110,12 @@ class _EmployeePageState extends State<EmployeePage> {
                 controller: namaController,
                 decoration: const InputDecoration(labelText: "Nama"),
               ),
-
               const SizedBox(height: 10),
-
               TextField(
                 controller: jabatanController,
                 decoration: const InputDecoration(labelText: "Jabatan"),
               ),
-
               const SizedBox(height: 10),
-
               TextField(
                 controller: gajiController,
                 keyboardType: TextInputType.number,
@@ -141,6 +127,7 @@ class _EmployeePageState extends State<EmployeePage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                clearForm(); // Form dibersihkan saat batal edit
               },
               child: const Text("Batal"),
             ),
@@ -160,19 +147,19 @@ class _EmployeePageState extends State<EmployeePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FA),
-
       appBar: AppBar(
-        title: const Text("Data Karyawan"),
+        title: const Text(
+          "Data Karyawan",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: greenColor,
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: greenColor,
         onPressed: addEmployee,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -202,9 +189,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 ],
               ),
             ),
-
             const SizedBox(height: 16),
-
             TextField(
               controller: namaController,
               decoration: const InputDecoration(
@@ -212,9 +197,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 10),
-
             TextField(
               controller: jabatanController,
               decoration: const InputDecoration(
@@ -222,9 +205,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 10),
-
             TextField(
               controller: gajiController,
               keyboardType: TextInputType.number,
@@ -233,56 +214,81 @@ class _EmployeePageState extends State<EmployeePage> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 15),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: greenColor),
                 onPressed: addEmployee,
-                child: const Text("Tambah Karyawan"),
+                child: const Text(
+                  "Tambah Karyawan",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-
             const SizedBox(height: 20),
-
             Expanded(
-              child: ListView.builder(
-                itemCount: employeeList.length,
-                itemBuilder: (context, index) {
-                  final employee = employeeList[index];
+              child: employeeList.isEmpty
+                  ? const Center(child: Text("Belum ada data karyawan"))
+                  : ListView.builder(
+                      itemCount: employeeList.length,
+                      itemBuilder: (context, index) {
+                        final employee = employeeList[index];
 
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: greenColor,
-                        child: Text(
-                          employee.nama.substring(0, 1).toUpperCase(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      title: Text(employee.nama),
-                      subtitle: Text(
-                        "${employee.jabatan} • Rp ${employee.gaji}",
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => showEditDialog(employee),
+                        return Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: greenColor,
+                              child: Text(
+                                employee.nama.isNotEmpty
+                                    ? employee.nama
+                                          .substring(0, 1)
+                                          .toUpperCase()
+                                    : "?", // Pengaman jika nama kosong
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            title: Text(employee.nama),
+                            subtitle: Text(
+                              "${employee.jabatan} • Rp ${employee.gaji}",
+                            ),
+
+                            // DI SINI LOGIKA NAVIGASI DIINTEGRASIKAN
+                            onTap: () {
+                              if (employee.id != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Gaji(employeeId: employee.id!),
+                                  ),
+                                );
+                              }
+                            },
+
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.orange,
+                                  ),
+                                  onPressed: () => showEditDialog(employee),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () => deleteEmployee(employee.id!),
+                                ),
+                              ],
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => deleteEmployee(employee.id!),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),

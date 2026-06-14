@@ -146,20 +146,27 @@ class _EmployeePageState extends State<EmployeePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FA),
+      backgroundColor: cream,
       appBar: AppBar(
         title: const Text(
           "Data Karyawan",
           style: TextStyle(color: Colors.white),
         ),
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
         centerTitle: true,
         backgroundColor: greenColor,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: greenColor,
-        onPressed: addEmployee,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: greenColor,
+      //   onPressed: addEmployee,
+      //   child: const Icon(Icons.add, color: Colors.white),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/data_karyawan.dart';
+import 'package:pabrik_kayu/data_kayu.dart';
 import 'package:pabrik_kayu/data_pribadi.dart';
 import 'package:pabrik_kayu/kehadiran.dart';
 import 'package:pabrik_kayu/kinerja.dart';
@@ -12,7 +13,7 @@ class Profil extends StatelessWidget {
     return Scaffold(
       backgroundColor: cream,
       appBar: AppBar(
-        title: Text("Profil", style: TextStyle(color: greenColor)),
+        title: Text("Karyawan", style: TextStyle(color: greenColor)),
         centerTitle: true,
         leading: CircleAvatar(
           backgroundColor: greenColor,
@@ -35,21 +36,32 @@ class Profil extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CircleAvatar(radius: 55),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: greenColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Image(
+                      image: AssetImage('assets/logo pabrik kayu.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   Text(
-                    "Nama Pengguna",
+                    "PT. Genk Solo Sukses",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("Angkaa", style: TextStyle(color: Colors.white)),
-                      Text("Presentase", style: TextStyle(color: Colors.white)),
-                      Text("Rating", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  SizedBox(height: 15),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     Text("Angkaa", style: TextStyle(color: Colors.white)),
+                  //     Text("Presentase", style: TextStyle(color: Colors.white)),
+                  //     Text("Rating", style: TextStyle(color: Colors.white)),
+                  //   ],
+                  // ),
+                  SizedBox(height: 30),
                 ],
               ),
             ),
@@ -74,16 +86,16 @@ class Profil extends StatelessWidget {
                 subtitle: "Jam kerja dan kehadiran ",
               ),
             ),
-            InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Kinerja()),
-              ),
-              child: Containerpropil(
-                title: "Kinerja",
-                subtitle: "Kinerja Harian",
-              ),
-            ),
+            // InkWell(
+            //   onTap: () => Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => DataKayu()),
+            //   ),
+            //   child: Containerpropil(
+            //     title: "Kinerja",
+            //     subtitle: "Kinerja Harian",
+            //   ),
+            // ),
             SizedBox(height: 40),
           ],
         ),

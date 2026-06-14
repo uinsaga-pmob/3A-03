@@ -67,68 +67,63 @@ class _LaporanState extends State<Laporan> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // SizedBox(height: 25),
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            "10",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Total Masuk",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "10",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 52,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            "2",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Proses",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "80%",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Presentase",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
+                      Text(
+                        "Total Masuk",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
+                  // Column(
+                  //   children: [
+                  //     Text(
+                  //       "2",
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 24,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       "Proses",
+                  //       style: TextStyle(color: Colors.white, fontSize: 15),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Column(
+                  //   children: [
+                  //     Text(
+                  //       "80%",
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 24,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       "Presentase",
+                  //       style: TextStyle(color: Colors.white, fontSize: 15),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 60),
+          SizedBox(height: 45),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -1,6 +1,8 @@
+// import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/daftar_akun.dart';
-import 'package:pabrik_kayu/login_page.dart';
+// import 'package:pabrik_kayu/daftar_akun.dart';
+import 'package:pabrik_kayu/home_page.dart';
 import 'package:pabrik_kayu/style.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -55,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor,
@@ -70,29 +72,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            // const SizedBox(height: 20),
 
-            // Tombol Daftar
-            SizedBox(
-              width: 160,
-              height: 45,
-              child: ElevatedButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DaftarAkun()),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: greenColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  "Daftar",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
+            // // Tombol Daftar
+            // SizedBox(
+            //   width: 160,
+            //   height: 45,
+            //   child: ElevatedButton(
+            //     onPressed: () => Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => DaftarAkun()),
+            //     ),
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: greenColor,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(30),
+            //       ),
+            //     ),
+            //     child: const Text(
+            //       "Daftar",
+            //       style: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

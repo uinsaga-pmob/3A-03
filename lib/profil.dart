@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/data_karyawan.dart';
-import 'package:pabrik_kayu/data_kayu.dart';
-import 'package:pabrik_kayu/data_pribadi.dart';
+// import 'package:pabrik_kayu/data_kayu.dart';
+// import 'package:pabrik_kayu/data_pribadi.dart';
 import 'package:pabrik_kayu/kehadiran.dart';
-import 'package:pabrik_kayu/kinerja.dart';
+// import 'package:pabrik_kayu/kinerja.dart';
 import 'package:pabrik_kayu/style.dart';
 
 class Profil extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:pabrik_kayu/gaji.dart';
 import 'package:pabrik_kayu/laporan.dart';
 import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:pabrik_kayu/dashboard_harian.dart';
+// import 'package:pabrik_kayu/dashboard_harian.dart';
 
 class HomePage extends StatefulWidget {
   @override

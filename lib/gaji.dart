@@ -20,7 +20,7 @@ class _GajiState extends State<Gaji> {
   @override
   void initState() {
     super.initState();
-    // Jalankan service hanya jika employeeId tidak null
+    // Jalankan service jika employeeId tidak null
     if (widget.employeeId != null) {
       _employeeFuture = _employeeService.getById(widget.employeeId!);
     }

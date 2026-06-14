@@ -18,9 +18,12 @@ class EmployeeModel {
   factory EmployeeModel.fromMap(Map<String, dynamic> map) {
     return EmployeeModel(
       id: map['id'],
-      nama: map['nama'],
-      jabatan: map['jabatan'],
-      gaji: map['gaji'],
+      nama: map['nama'] ?? '',
+      jabatan: map['jabatan'] ?? '',
+      // Menggunakan int.tryParse atau casting aman untuk jaga-jaga jika data di DB berupa string/null
+      gaji: map['gaji'] is int
+          ? map['gaji']
+          : (int.tryParse(map['gaji'].toString()) ?? 0),
     );
   }
 }

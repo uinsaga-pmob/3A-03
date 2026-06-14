@@ -44,6 +44,16 @@ class DatabaseHelper {
         stok INTEGER NOT NULL
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE kehadiran(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        employee_id INTEGER NOT NULL,
+        status TEXT NOT NULL,
+        tanggal TEXT NOT NULL,
+        jam_masuk TEXT NOT NULL
+      )
+    ''');
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -59,6 +69,7 @@ class DatabaseHelper {
     ''');
     }
   }
+
   // ======================
   // CREATE
   // ======================

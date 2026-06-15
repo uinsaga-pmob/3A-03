@@ -207,7 +207,7 @@ class _LaporanState extends State<Laporan> {
               ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => lihat_laporan()),
+                  MaterialPageRoute(builder: (context) => LihatLaporan()),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor,

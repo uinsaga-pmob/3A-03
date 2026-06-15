@@ -3,7 +3,9 @@ import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/services/laporan_service.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'dart:io';
-import 'package:camera/camera.dart';
+// Import package baru
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:pabrik_kayu/models/laporan_model.dart';
 
 class TambahLaporan extends StatefulWidget {
@@ -14,31 +16,37 @@ class TambahLaporan extends StatefulWidget {
 }
 
 class _TambahLaporanState extends State<TambahLaporan> {
-  // buat agar mewarisi fungsi database helper, service, models
   final laporanService = LaporanService();
-
   String? selectedJenis;
-
   String? fotoPath;
-
   String? filePath;
+  String? fileName; // Untuk menampilkan nama file PDF yang dipilih
 
+  final ImagePicker _picker = ImagePicker();
+
+  // Fungsi ambil foto menggunakan image_picker
   Future<void> ambilFoto() async {
-    final cameras = await availableCameras();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        fotoPath = image.path;
+      });
+    }
+  }
 
-    final camera = cameras.first;
+  // Fungsi pilih file PDF menggunakan file_picker
+  Future<void> tambahFile() async {
+    FilePickerResult? result = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'], // Hanya izinkan PDF
+    );
 
-    final controller = CameraController(camera, ResolutionPreset.medium);
-
-    await controller.initialize();
-
-    final image = await controller.takePicture();
-
-    await controller.dispose();
-
-    setState(() {
-      fotoPath = image.path;
-    });
+    if (result != null) {
+      setState(() {
+        filePath = result.files.single.path;
+        fileName = result.files.single.name;
+      });
+    }
   }
 
   Future<void> simpanLaporan() async {
@@ -59,8 +67,8 @@ class _TambahLaporanState extends State<TambahLaporan> {
     final laporan = LaporanModel(
       jenisProduk: selectedJenis!,
       foto: fotoPath!,
-      filePath: filePath,
-      tanggal: DateTime.now().toString(),
+      filePath: filePath, // Bisa null jika tidak wajib
+      tanggal: DateTime.now().toString().substring(0, 10), // Format YYYY-MM-DD
     );
 
     await laporanService.insert(laporan);
@@ -73,7 +81,9 @@ class _TambahLaporanState extends State<TambahLaporan> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => lihat_laporan()),
+      MaterialPageRoute(
+        builder: (_) => const LihatLaporan(),
+      ), // Pastikan nama class-nya sesuai (huruf besar)
     );
   }
 
@@ -101,22 +111,19 @@ class _TambahLaporanState extends State<TambahLaporan> {
               title: "Katul",
               imagePath: "assets/logo katul.png",
             ),
-
             const SizedBox(height: 14),
-
             buildJenisProduk(
               value: "Kayu Lapis",
               title: "Kayu Lapis",
               imagePath: "assets/logo kayu,triplek.png",
             ),
-
             const SizedBox(height: 14),
-
             buildJenisProduk(
               value: "Tongkat",
               title: "Tongkat",
               imagePath: "assets/logo kayu bulet.png",
-            ), //ini tongkat
+            ),
+
             const SizedBox(height: 30),
 
             _actionButton(
@@ -124,6 +131,8 @@ class _TambahLaporanState extends State<TambahLaporan> {
               label: 'Ambil Foto',
               onTap: ambilFoto,
             ),
+
+            // Preview Foto
             if (fotoPath != null)
               Container(
                 margin: const EdgeInsets.only(top: 15),
@@ -142,11 +151,23 @@ class _TambahLaporanState extends State<TambahLaporan> {
             const SizedBox(height: 16),
 
             _actionButton(
-              icon: Icons
-                  .insert_drive_file_outlined, //buat agar bisa mengupload data dari file manager. masuk ke database laporan
-              label: 'Tambah File',
-              onTap: () {},
+              icon: Icons.picture_as_pdf,
+              label: 'Tambah File PDF',
+              onTap: tambahFile,
             ),
+
+            // Indikator File PDF Terpilih
+            if (fileName != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "File terpilih: $fileName",
+                  style: TextStyle(
+                    color: greenColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
 
             const SizedBox(height: 30),
 
@@ -173,13 +194,13 @@ class _TambahLaporanState extends State<TambahLaporan> {
     );
   }
 
+  // (Fungsi buildJenisProduk dan _actionButton TETAP SAMA seperti kode Anda sebelumnya)
   Widget buildJenisProduk({
     required String value,
     required String title,
     required String imagePath,
   }) {
     final bool isSelected = selectedJenis == value;
-
     return InkWell(
       onTap: () {
         setState(() {
@@ -211,9 +232,7 @@ class _TambahLaporanState extends State<TambahLaporan> {
               ),
               child: Image.asset(imagePath, fit: BoxFit.contain),
             ),
-
             const SizedBox(width: 16),
-
             Expanded(
               child: Text(
                 title,
@@ -224,7 +243,6 @@ class _TambahLaporanState extends State<TambahLaporan> {
                 ),
               ),
             ),
-
             Radio<String>(
               value: value,
               groupValue: selectedJenis,

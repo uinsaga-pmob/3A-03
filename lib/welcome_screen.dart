@@ -55,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               width: 160,
               height: 45,
               child: ElevatedButton(
-                onPressed: () => Navigator.push(
+                onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
                 ),

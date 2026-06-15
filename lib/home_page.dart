@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pabrik_kayu/data_karyawan.dart'; // IMPOR HALAMAN DATA KARYAWAN (EmployeePage)
 import 'package:pabrik_kayu/gaji.dart';
+import 'package:pabrik_kayu/gaji_list_page.dart';
 import 'package:pabrik_kayu/laporan.dart';
 import 'package:pabrik_kayu/profil.dart';
 import 'package:pabrik_kayu/style.dart';
-// import 'package:pabrik_kayu/dashboard_harian.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  State<HomePage> createState() => _homepagestate();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _homepagestate extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,22 +29,7 @@ class _homepagestate extends State<HomePage> {
         child: SafeArea(
           child: Column(
             children: [
-              SizedBox(height: 50),
-              // ListTile(
-              //   leading: CircleAvatar(),
-              //   title: Text("Profesi"),
-              //   subtitle: Text("Username"),
-              //   titleTextStyle: TextStyle(
-              //     color: greenColor,
-              //     fontSize: 20,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              //   subtitleTextStyle: TextStyle(
-              //     color: greenColor,
-              //     fontSize: 12,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
+              const SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -52,7 +40,7 @@ class _homepagestate extends State<HomePage> {
                       color: greenColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -68,43 +56,13 @@ class _homepagestate extends State<HomePage> {
                       ),
                     ),
                   ),
-                  // SizedBox(width: 30),
-                  // Container(
-                  //   height: 72,
-                  //   width: 150,
-                  //   decoration: BoxDecoration(
-                  //     color: greenColor,
-                  //     borderRadius: BorderRadius.circular(15),
-                  //   ),
-                  //   child: Center(
-                  //     child: Column(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Text(
-                  //           "Pendapatan Bulanan",
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 12,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           "3.000.000",
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 12,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Text(
                     "Main Menu",
                     style: TextStyle(
@@ -117,37 +75,45 @@ class _homepagestate extends State<HomePage> {
               ),
               Column(
                 children: [
+                  // 1. MENU KARYAWAN: Diarahkan ke EmployeePage (Data Karyawan)
                   InkWell(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Profil()),
+                      MaterialPageRoute(
+                        builder: (context) => const EmployeePage(),
+                      ),
                     ),
-                    child: Containerhome(
+                    child: const Containerhome(
                       title: "Karyawan",
                       subtitle: "Data Karyawan & Kehadiran Karyawan",
                     ),
                   ),
+
+                  // 2. MENU LAPORAN
                   InkWell(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Laporan()),
                     ),
-                    child: Containerhome(
+                    child: const Containerhome(
                       title: "Laporan",
                       subtitle: "Katul, Kayu Lapis, Tongkat",
                     ),
                   ),
+
+                  // 3. MENU GAJI: Diarahkan ke GajiListPage
                   InkWell(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Gaji()),
+                      MaterialPageRoute(
+                        builder: (context) => const GajiListPage(),
+                      ),
                     ),
-                    child: Containerhome(
-                      title: "Gaji", // menampilakn gaji dari database employee
+                    child: const Containerhome(
+                      title: "Gaji",
                       subtitle: "Manajemen Pembayaran Gaji ",
                     ),
                   ),
-                  // DashboardHarian(),
                 ],
               ),
             ],
@@ -166,7 +132,7 @@ class Containerhome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       height: 73,
       width: 337,
       decoration: BoxDecoration(
@@ -180,13 +146,16 @@ class Containerhome extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.white)),
+            Text(
+              subtitle,
+              style: const TextStyle(fontSize: 12, color: Colors.white),
+            ),
           ],
         ),
       ),

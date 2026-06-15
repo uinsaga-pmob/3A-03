@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/models/employee_model.dart';
 import 'package:pabrik_kayu/services/employee_service.dart';
 import 'package:pabrik_kayu/style.dart';
-import 'package:pabrik_kayu/gaji.dart'; // IMPORT HALAMAN GAJI DI SINI
+import 'package:pabrik_kayu/gaji.dart'; // Tetap mengimpor gaji.dart
 
 class EmployeePage extends StatefulWidget {
   const EmployeePage({super.key});
@@ -127,7 +127,7 @@ class _EmployeePageState extends State<EmployeePage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                clearForm(); // Form dibersihkan saat batal edit
+                clearForm();
               },
               child: const Text("Batal"),
             ),
@@ -152,21 +152,19 @@ class _EmployeePageState extends State<EmployeePage> {
           "Data Karyawan",
           style: TextStyle(color: Colors.white),
         ),
-        leading: CircleAvatar(
-          backgroundColor: greenColor,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: cream),
-            onPressed: () => Navigator.pop(context),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: greenColor,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: cream),
+              onPressed: () => Navigator.pop(context),
+            ),
           ),
         ),
         centerTitle: true,
         backgroundColor: greenColor,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: greenColor,
-      //   onPressed: addEmployee,
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -251,7 +249,7 @@ class _EmployeePageState extends State<EmployeePage> {
                                     ? employee.nama
                                           .substring(0, 1)
                                           .toUpperCase()
-                                    : "?", // Pengaman jika nama kosong
+                                    : "?",
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
@@ -260,14 +258,15 @@ class _EmployeePageState extends State<EmployeePage> {
                               "${employee.jabatan} • Rp ${employee.gaji}",
                             ),
 
-                            // DI SINI LOGIKA NAVIGASI DIINTEGRASIKAN
+                            // PERBAIKAN NAVIGASI DI SINI: Menggunakan GajiDetailPage
                             onTap: () {
                               if (employee.id != null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        Gaji(employeeId: employee.id!),
+                                    builder: (context) => GajiDetailPage(
+                                      employeeId: employee.id!,
+                                    ),
                                   ),
                                 );
                               }

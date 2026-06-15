@@ -79,9 +79,7 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const EmployeePage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const Profil()),
                     ),
                     child: const Containerhome(
                       title: "Karyawan",

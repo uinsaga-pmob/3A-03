@@ -17,4 +17,28 @@ class LaporanService {
   Future<int> delete(int id) async {
     return await dbHelper.delete('laporan', id);
   }
+
+  Future<int> getTotalLaporan() async {
+    final result = await dbHelper.rawQuery(
+      "SELECT COUNT(*) as total FROM laporan",
+    );
+
+    return result.first["total"] as int;
+  }
+
+  Future<Map<String, int>> getKategoriCount() async {
+    final result = await dbHelper.rawQuery('''
+    SELECT jenis_produk, COUNT(*) as total
+    FROM laporan
+    GROUP BY jenis_produk
+  ''');
+
+    Map<String, int> data = {};
+
+    for (var item in result) {
+      data[item['jenis_produk'].toString()] = item['total'] as int;
+    }
+
+    return data;
+  }
 }

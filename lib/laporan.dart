@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pabrik_kayu/lihat_laporan.dart';
 import 'package:pabrik_kayu/style.dart';
 import 'package:pabrik_kayu/tambah_laporan.dart';
+import 'package:pabrik_kayu/services/laporan_service.dart';
 
 class Laporan extends StatefulWidget {
   const Laporan({super.key});
@@ -11,6 +12,43 @@ class Laporan extends StatefulWidget {
 }
 
 class _LaporanState extends State<Laporan> {
+  final laporanService = LaporanService();
+
+  int totalMasuk = 0;
+
+  double katulPersen = 0;
+  double kayuLapisPersen = 0;
+  double tongkatPersen = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadStatistik();
+  }
+
+  Future<void> loadStatistik() async {
+    final total = await laporanService.getTotalLaporan();
+
+    final kategori = await laporanService.getKategoriCount();
+
+    if (total == 0) {
+      setState(() {
+        totalMasuk = 0;
+      });
+      return;
+    }
+
+    setState(() {
+      totalMasuk = total;
+
+      katulPersen = ((kategori["Katul"] ?? 0) / total) * 100;
+
+      kayuLapisPersen = ((kategori["Kayu Lapis"] ?? 0) / total) * 100;
+
+      tongkatPersen = ((kategori["Tongkat"] ?? 0) / total) * 100;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +109,8 @@ class _LaporanState extends State<Laporan> {
                   Column(
                     children: [
                       Text(
-                        "10",
-                        style: TextStyle(
+                        totalMasuk.toString(),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 52,
                           fontWeight: FontWeight.bold,
@@ -143,18 +181,18 @@ class _LaporanState extends State<Laporan> {
           Containerlaporan(
             title: "Katul",
             subtitle: "Serutan Kayu dan Serbuk Gergaji",
-            presentase: "60%",
+            presentase: "${katulPersen.toStringAsFixed(1)}%",
           ),
 
           Containerlaporan(
             title: "Kayu Lapis",
             subtitle: "Lembaran Kayu",
-            presentase: "20%",
+            presentase: "${kayuLapisPersen.toStringAsFixed(1)}%",
           ),
           Containerlaporan(
             title: "Tongkat",
             subtitle: "Batang Tengah Sisa Pemotongan",
-            presentase: "10%",
+            presentase: "${tongkatPersen.toStringAsFixed(1)}%",
           ),
 
           SizedBox(height: 35),
@@ -272,9 +310,10 @@ class Containerlaporan extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(width: 30),
             Container(
               height: 39,
-              width: 50,
+              width: 55,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: Colors.white, width: 1),

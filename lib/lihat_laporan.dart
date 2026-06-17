@@ -72,7 +72,14 @@ class _LihatLaporanState extends State<LihatLaporan> {
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
-        iconTheme: IconThemeData(color: greenColor), // Warna tombol back
+        iconTheme: IconThemeData(color: greenColor),
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ), // Warna tombol back
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -101,8 +108,11 @@ class _LihatLaporanState extends State<LihatLaporan> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                        child: (laporan.foto != null && laporan.foto!.isNotEmpty && File(laporan.foto!).existsSync())
-                            ? Image.file(File(laporan.foto!), fit: BoxFit.cover)
+                      child:
+                          (laporan.foto != null &&
+                              laporan.foto!.isNotEmpty &&
+                              File(laporan.foto!).existsSync())
+                          ? Image.file(File(laporan.foto!), fit: BoxFit.cover)
                           : const Icon(Icons.broken_image, color: Colors.grey),
                     ),
                   ),

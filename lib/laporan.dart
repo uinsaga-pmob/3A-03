@@ -219,10 +219,16 @@ class _LaporanState extends State<Laporan> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TambahLaporan()),
-                  ),
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TambahLaporan(),
+                      ),
+                    );
+
+                    loadStatistik(); // refresh setelah kembali
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: greenColor,
                     padding: EdgeInsets.all(12),

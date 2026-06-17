@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pabrik_kayu/data_karyawan.dart'; // IMPOR HALAMAN DATA KARYAWAN (EmployeePage)
-import 'package:pabrik_kayu/gaji.dart';
+import 'package:pabrik_kayu/services/laporan_service.dart';
 import 'package:pabrik_kayu/gaji_list_page.dart';
 import 'package:pabrik_kayu/laporan.dart';
 import 'package:pabrik_kayu/profil.dart';
@@ -14,7 +13,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final laporanService = LaporanService();
+
+  int totalInputHariIni = 0;
+  Future<void> loadDashboard() async {
+    final total = await laporanService.getTotalHariIni();
+
+    if (!mounted) return;
+
+    setState(() {
+      totalInputHariIni = total;
+    });
+  }
+
   @override
+  void initState() {
+    super.initState();
+    loadDashboard();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cream,
@@ -40,17 +57,20 @@ class _HomePageState extends State<HomePage> {
                       color: greenColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Input Hari ini",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                           Text(
-                            "10",
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            totalInputHariIni.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                            ),
                           ),
                         ],
                       ),
@@ -89,10 +109,16 @@ class _HomePageState extends State<HomePage> {
 
                   // 2. MENU LAPORAN
                   InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Laporan()),
-                    ),
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Laporan(),
+                        ),
+                      );
+
+                      loadDashboard();
+                    },
                     child: const Containerhome(
                       title: "Laporan",
                       subtitle: "Katul, Kayu Lapis, Tongkat",

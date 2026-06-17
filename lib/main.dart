@@ -17,14 +17,33 @@ import 'package:pabrik_kayu/welcome_screen.dart';
 //cameras = await availableCameras();
 //runApp(const Kayu());
 //}
+import 'package:pabrik_kayu/helpers/database_helper.dart';
 
-//class Kayu extends StatelessWidget {
-void main() {
+Future<void> initDatabase() async {
+  await DatabaseHelper.instance.database;
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DatabaseHelper.instance.refreshDatabase();
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initDatabase();
+  }
 
   @override
   Widget build(BuildContext context) {

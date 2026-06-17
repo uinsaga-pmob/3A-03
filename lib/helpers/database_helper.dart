@@ -7,6 +7,14 @@ class DatabaseHelper {
   static Database? _database;
 
   DatabaseHelper._internal();
+  Future<void> refreshDatabase() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+
+    _database = await _initDatabase();
+  }
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -28,12 +36,14 @@ class DatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE employees(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nama TEXT NOT NULL,
-        jabatan TEXT NOT NULL,
-        gaji INTEGER NOT NULL
-      )
+    CREATE TABLE employees(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nama TEXT NOT NULL,
+      jabatan TEXT NOT NULL,
+      gaji INTEGER NOT NULL,
+      tanggal_lahir TEXT NOT NULL,
+      alamat TEXT NOT NULL
+    )
     ''');
 
     await db.execute('''
@@ -71,7 +81,9 @@ class DatabaseHelper {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nama TEXT NOT NULL,
       jabatan TEXT NOT NULL,
-      gaji INTEGER NOT NULL
+      gaji INTEGER NOT NULL,
+      tanggal_lahir TEXT NOT NULL,
+      alamat TEXT NOT NULL
     )
   ''');
 

@@ -26,6 +26,21 @@ class LaporanService {
     return result.first["total"] as int;
   }
 
+  Future<int> getTotalHariIni() async {
+    final today = DateTime.now().toString().substring(0, 10);
+
+    final result = await dbHelper.rawQuery(
+      '''
+      SELECT COUNT(*) as total
+      FROM laporan
+      WHERE substr(tanggal,1,10) = ?
+      ''',
+      [today],
+    );
+
+    return result.first['total'] as int;
+  }
+
   Future<Map<String, int>> getKategoriCount() async {
     final result = await dbHelper.rawQuery('''
     SELECT jenis_produk, COUNT(*) as total

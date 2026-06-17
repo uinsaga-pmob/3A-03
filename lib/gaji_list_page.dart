@@ -51,6 +51,13 @@ class _GajiListPageState extends State<GajiListPage> {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
         backgroundColor: greenColor,
       ),
       body: isLoading

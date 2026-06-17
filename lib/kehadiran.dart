@@ -121,6 +121,13 @@ class _KehadiranState extends State<Kehadiran> {
           style: TextStyle(color: greenColor),
         ), // Pastikan greenColor ada
         centerTitle: true,
+        leading: CircleAvatar(
+          backgroundColor: greenColor,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: cream),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
       ),
       body: isLoading
           ? const Center(
